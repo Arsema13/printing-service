@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us – Efoyta Tech</title>
+<link rel="icon" type="image/png" href="img/favi.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary: #2d5bff;
+      --primary-hover: #1f46d4;
+      --dark: #0f172a;
+      --slate: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --nav-glass: rgba(15, 23, 42, 0.95);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: var(--bg); color: var(--dark); overflow-x: hidden; line-height: 1.6; }
+
+    /* ================= NAVBAR (SAME AS ABOUT) ================= */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 10%; background: var(--nav-glass);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; }
+    .logo span { color: var(--primary); }
+    .nav_items { display: flex; list-style: none; gap: 30px; }
+    .nav_items li a { text-decoration: none; color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 0.95rem; transition: 0.3s ease; }
+    .nav_items li a:hover, .nav_items li a.active { color: var(--primary); }
+    .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav_items {
+        position: fixed; top: 70px; left: -100%; flex-direction: column;
+        background: var(--nav-glass); width: 100%; text-align: center;
+        padding: 40px 0; transition: 0.5s ease;
+      }
+      .nav_items.active { left: 0; }
+      .nav_items li { margin: 15px 0; }
+    }
+
+    /* ================= CONTACT CONTENT ================= */
+    .contact_hero {
+      padding: 10rem 2rem 4rem; text-align: center;
+      background: radial-gradient(circle at top right, #eef2ff, transparent);
+    }
+    .badge {
+      background: #dbeafe; color: var(--primary); padding: 6px 16px; 
+      border-radius: 50px; font-size: 0.8rem; font-weight: 700; 
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .contact_hero h1 { font-size: 3rem; margin-top: 1rem; letter-spacing: -1px; color: var(--dark); }
+    .contact_hero p { color: var(--slate); max-width: 600px; margin: 10px auto; }
+
+    .contact_wrapper {
+      max-width: 1100px; margin: 0 auto 6rem; padding: 0 2rem;
+      display: grid; grid-template-columns: 1fr 1.5fr; gap: 3rem;
+    }
+
+    .info_sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+    .info_card {
+      background: var(--white); padding: 2rem; border-radius: 20px;
+      border: 1px solid #f1f5f9; box-shadow: 0 10px 25px rgba(0,0,0,0.03);
+      transition: 0.3s;
+    }
+    .info_card:hover { transform: translateY(-5px); border-color: var(--primary); }
+    .info_card i { font-size: 2rem; color: var(--primary); margin-bottom: 1rem; display: block; }
+    .info_card h4 { font-size: 1.1rem; margin-bottom: 5px; color: var(--dark); }
+    .info_card p { color: var(--slate); font-size: 0.95rem; }
+
+    .form_container {
+      background: var(--white); padding: 3rem; border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08); border: 1px solid #f1f5f9;
+    }
+    .form_group { margin-bottom: 1.5rem; }
+    .form_group label { display: block; font-size: 0.9rem; font-weight: 600; margin-bottom: 8px; color: var(--dark); }
+    .form_group input, .form_group textarea {
+      width: 100%; padding: 1rem; border-radius: 12px;
+      border: 2px solid #f1f5f9; background: #f8fafc;
+      font-size: 1rem; transition: 0.3s; outline: none;
+    }
+    .form_group input:focus, .form_group textarea:focus {
+      border-color: var(--primary); background: #fff; box-shadow: 0 0 0 4px rgba(45, 91, 255, 0.1);
+    }
+    .submit_btn {
+      width: 100%; background: var(--primary); color: white;
+      padding: 1rem; border-radius: 12px; border: none;
+      font-size: 1rem; font-weight: 600; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      transition: 0.3s;
+    }
+    .submit_btn:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 10px 20px rgba(45, 91, 255, 0.2); }
+
+    /* ================= FOOTER (SAME AS ABOUT) ================= */
+    footer { background: var(--dark); color: #94a3b8; padding: 4rem 2rem 2rem; margin-top: 4rem; }
+    .footer_content { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 4rem; border-bottom: 1px solid #1e293b; padding-bottom: 3rem; }
+    .footer_col { flex: 1; min-width: 250px; }
+    .footer_col h4 { color: white; margin-bottom: 1.5rem; }
+    .footer_col p, .footer_col li { font-size: 0.9rem; margin-bottom: 10px; }
+    .footer_col ul { list-style: none; }
+    .footer_col a { color: inherit; text-decoration: none; transition: 0.3s ease; }
+    .footer_col a:hover { color: var(--primary); }
+    .footer_socials { display: flex; gap: 15px; margin-top: 1rem; }
+    .footer_socials a { font-size: 1.4rem; color: white; background: #1e293b; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s; }
+    .footer_socials a:hover { background: var(--primary); transform: translateY(-3px); }
+
+    @media (max-width: 900px) {
+      .contact_wrapper { grid-template-columns: 1fr; }
+      .contact_hero h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Efoyta <span>Tech</span></a>
+    <div class="menu-toggle" id="mobile-menu">
+      <i class="ri-menu-line"></i>
+    </div>
+    <ul class="nav_items" id="nav-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="contact_hero">
+  <span class="badge">Support Center</span>
+  <h1>Let's Start a Conversation</h1>
+  <p>Have a special printing project in mind? Our team is ready to help you bring your brand to life.</p>
+</section>
+
+<main class="contact_wrapper">
+  
+  <div class="info_sidebar">
+    <div class="info_card">
+      <i class="ri-customer-service-2-line"></i>
+      <h4>Live Support</h4>
+      <p>+251 907 992 963</p>
+      <p>Mon - Sat, 8am - 6pm</p>
+    </div>
+    <div class="info_card">
+      <i class="ri-mail-send-line"></i>
+      <h4>Email Us</h4>
+      <p>eliyasminase123@gmail.com</p>
+    </div>
+    <div class="info_card">
+      <i class="ri-map-pin-user-line"></i>
+      <h4>Visit Office</h4>
+      <p>Addis Ababa, Ethiopia</p>
+      <p>Kilinto Area, Addis Abeba</p>
+    </div>
+  </div>
+
+  <div class="form_container">
+    <form id="contactForm">
+      <div class="form_group">
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+      </div>
+      <div class="form_group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="email@example.com" required />
+      </div>
+      <div class="form_group">
+        <label>Your Message</label>
+        <textarea id="message" placeholder="How can we help you?" required></textarea>
+      </div>
+      <button type="submit" class="submit_btn" id="submitBtn">
+        <span>Send Message</span>
+        <i class="ri-send-plane-fill"></i>
+      </button>
+    </form>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer_content">
+    <div class="footer_col">
+      <h4>Efoyta Tech</h4>
+      <p>The standard for digital printing in Ethiopia. High quality, zero hassle.</p>
+      <div class="footer_socials">
+        <a href="https://t.me/Lilyteoes"><i class="ri-telegram-line"></i></a>
+        <a href="#"><i class="ri-tiktok-line"></i></a>
+        <a href="mailto:eliyasminase123@gmail.com"><i class="ri-mail-line"></i></a>
+      </div>
+    </div>
+    <div class="footer_col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="term.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer_col">
+      <h4>Reach Us</h4>
+      <p><i class="ri-phone-fill"></i> +251 90 799 2963</p>
+      <p><i class="ri-map-pin-2-fill"></i> Addis Ababa, Ethiopia</p>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem;">© 2025 Efoyta Print Solutions. All Rights Reserved.</p>
+</footer>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
+    authDomain: "ordering-fd42a.firebaseapp.com",
+    databaseURL: "https://ordering-fd42a-default-rtdb.firebaseio.com/",
+    projectId: "ordering-fd42a",
+    storageBucket: "ordering-fd42a.appspot.com",
+    messagingSenderId: "379564875478",
+    appId: "1:379564875478:web:42bc00e70a594bc24ef377"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+
+  const contactForm = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  // Firebase Form Submit
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    
+    const originalBtnText = submitBtn.innerHTML;
+    submitBtn.innerHTML = "<span>Sending...</span> <i class='ri-loader-4-line ri-spin'></i>";
+    submitBtn.style.opacity = "0.7";
+    submitBtn.disabled = true;
+
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    push(ref(db, 'contacts'), {
+      name,
+      email,
+      message,
+      timestamp: new Date().toISOString()
+    })
+    .then(() => {
+      alert("Success! We'll get back to you shortly.");
+      contactForm.reset();
+    })
+    .catch(err => alert("Error: " + err.message))
+    .finally(() => {
+      submitBtn.innerHTML = originalBtnText;
+      submitBtn.style.opacity = "1";
+      submitBtn.disabled = false;
+    });
+  });
+
+  // Mobile Menu Toggle
+  const menuBtn = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  const menuIcon = document.querySelector('#mobile-menu i');
+
+  menuBtn.addEventListener('click', () => {
+    navList.classList.toggle('active');
+    const isOpen = navList.classList.contains('active');
+    menuIcon.className = isOpen ? 'ri-close-line' : 'ri-menu-line';
+  });
+</script>
+
+</body>
+</html>

@@ -1,424 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Order - Efoyta Tech</title>
-<link rel="icon" type="image/png" href="img/favi.png">
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Place Order | Efoyta Tech</title>
+  <link rel="icon" type="image/png" href="img/favi.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
 
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap');
+  <style>
+    /* ================= GLOBAL & NAVBAR STYLES ================= */
+    :root {
+      --primary: #2d5bff;
+      --dark-nav: rgba(15, 23, 42, 0.95);
+      --dark: #0f172a;
+      --bg: #f8fafc;
+      --text: #334155;
+      --border: #e2e8f0;
+    }
 
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto Slab', serif;}
-body{background:#eef7fc;color:#222;line-height:1.6;}
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background-color: var(--bg); color: var(--text); }
 
-.navbar{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:1rem 5%;position:fixed;width:100%;top:0;
-  background:#fff;box-shadow:0 4px 20px rgba(0,0,0,0.05);z-index:1000;
-}
-.logo{font-size:1.8rem;font-weight:700;color:#007bff;}
-.nav_items{display:flex;gap:2rem;list-style:none;}
-.nav_items a{text-decoration:none;color:#222;font-weight:600;}
-.nav_items a.active,.nav_items a:hover{color:#007bff;}
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 10%; background: var(--dark-nav);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 1000;
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: #fff; text-decoration: none; }
+    .logo span { color: var(--primary); }
+    
+    .nav_items { display: flex; list-style: none; gap: 30px; align-items: center; }
+    .nav_items li a { text-decoration: none; color: rgba(255, 255, 255, 0.85); font-weight: 500; transition: 0.3s; }
+    .nav_items li a:hover, .nav_items li a.active { color: var(--primary); }
+    
+    /* Profile Container */
+    .profile-container { position: relative; margin-left: 20px; }
+    .profile-trigger { 
+      background: rgba(255, 255, 255, 0.1); padding: 8px 15px; border-radius: 50px;
+      color: white; cursor: pointer; display: flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(255,255,255,0.1); transition: 0.3s;
+    }
+    .profile-dropdown {
+      position: absolute; top: 120%; right: 0; width: 220px;
+      background: white; border-radius: 12px; padding: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      display: none; flex-direction: column; z-index: 1001;
+    }
+    .profile-dropdown.show { display: flex; }
+    .profile-dropdown a { text-decoration: none; color: #333; padding: 10px; font-size: 0.9rem; border-radius: 6px; display: flex; align-items: center; gap: 10px; }
+    .profile-dropdown a:hover { background: #f0f4ff; color: var(--primary); }
 
-.sec{padding:14% 5% 5%;max-width:900px;margin:auto;}
+    /* ================= ORDER FORM STYLES ================= */
+    .sec { padding: 120px 5% 60px; max-width: 900px; margin: auto; }
+    .head_1 { text-align: center; margin-bottom: 40px; }
+    .sub_heading { color: var(--primary); font-size: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+    .heading { font-size: 2.5rem; font-weight: 700; color: var(--dark); }
 
-.head_1{text-align:center;margin-bottom:2rem;}
-.sub_heading{color:#007bff;font-size:1.6rem;font-weight:600;}
-.heading{font-size:2.4rem;font-weight:700;}
-.para{color:#555;margin-top:10px;}
+    .order_container {
+      background: #fff; padding: 40px; border-radius: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.05); border: 1px solid var(--border);
+    }
 
-.order_container{
-  background:#fff;padding:2rem;border-radius:15px;
-  box-shadow:0 10px 25px rgba(0,123,255,0.1);
-  transition: all 0.3s ease;
-}
-.order_container:hover{transform: translateY(-5px);}
+    .order_form { display: flex; flex-direction: column; gap: 1.5rem; }
+    .order_form label { font-weight: 600; color: var(--dark); font-size: 0.9rem; }
 
-.order_form{display:flex;flex-direction:column;gap:1.4rem;}
-.order_form label{font-weight:600;color:#004a80;}
+    .order_form input, .order_form select, .order_form textarea {
+      padding: 12px 18px; border-radius: 12px; border: 1px solid var(--border);
+      font-size: 1rem; width: 100%; transition: 0.3s;
+    }
+    .order_form input:focus { border-color: var(--primary); outline: none; background: #fcfdff; }
 
-.order_form input,
-.order_form select,
-.order_form textarea{
-  padding:0.9rem 1.2rem;border-radius:12px;
-  border:1px solid #0077cc;font-size:1rem;
-  transition: all 0.2s;
-}
-.order_form input:focus,
-.order_form select:focus,
-.order_form textarea:focus{border-color:#007bff;outline:none;box-shadow:0 0 8px rgba(0,123,255,0.2);}
-.order_form textarea{resize:vertical;min-height:100px;}
+    .btn {
+      padding: 14px 28px; border: none; border-radius: 12px;
+      background: var(--primary); color: #fff; font-weight: 600; cursor: pointer;
+      transition: 0.3s; text-align: center;
+    }
+    .btn:hover { background: #1a46e6; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(45, 91, 255, 0.3); }
 
-.btn{
-  padding:0.75rem 1.5rem;border:none;border-radius:12px;
-  background:#007bff;color:#fff;font-weight:600;cursor:pointer;
-  transition: all 0.2s;
-}
-.btn:hover{box-shadow:0 8px 20px rgba(0,123,255,0.3); transform: translateY(-2px);}
+    .products_box {
+      background: #f1f5f9; padding: 15px; border-radius: 12px;
+      max-height: 250px; overflow-y: auto; margin-top: 10px;
+    }
+    .product_row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px; padding: 12px; border-radius: 10px; background: #fff;
+      border: 1px solid var(--border);
+    }
+    .remove { background: #fee2e2; color: #ef4444; border: none; border-radius: 8px; padding: 5px 12px; cursor: pointer; font-size: 0.8rem; }
 
-.products_box{
-  background:#f0f8ff;
-  padding:1rem;
-  border-radius:12px;
-  max-height:200px;
-  overflow-y:auto;
-}
-.product_row{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:8px;
-  padding:6px 8px;
-  border-radius:8px;
-  background:#e6f2ff;
-  transition: all 0.2s;
-}
-.product_row:hover{background:#d0e7ff;}
-.remove{
-  background:red;color:#fff;border:none;
-  border-radius:6px;padding:4px 10px;cursor:pointer;
-  font-weight:600;
-}
+    .order_summary { background: var(--dark); padding: 20px; border-radius: 12px; color: white; display: flex; justify-content: space-between; align-items: center; }
+    .order_summary h4 span { color: var(--primary); font-size: 1.4rem; }
 
-.order_summary{
-  background:#f0f8ff;padding:1rem;border-radius:12px;
-  margin-top:10px;
-  font-size:1.1rem;
-}
-.order_summary h4{color:#007bff;}
-.order_summary span{font-weight:600;}
+    /* ================= FOOTER STYLES ================= */
+    .unified-footer { background: #0f172a; color: #94a3b8; padding: 4rem 10% 2rem; }
+    .footer-grid { display: flex; flex-wrap: wrap; gap: 4rem; border-bottom: 1px solid #1e293b; padding-bottom: 3rem; }
+    .footer-col { flex: 1; min-width: 250px; }
+    .footer-col h4 { color: white; margin-bottom: 1.5rem; }
+    .footer-col a { color: #94a3b8; text-decoration: none; display: block; margin-bottom: 10px; font-size: 0.9rem; }
+    .footer-col a:hover { color: var(--primary); }
 
-footer{
-  background:#0f172a;color:#fff;text-align:center;
-  padding:2rem;margin-top:2rem;
-  font-size:0.95rem;
-}
-
-@media(max-width:600px){
-  .order_form input,
-  .order_form select,
-  .order_form textarea,
-  .btn{font-size:0.95rem;}
-  .product_row{flex-direction:column;align-items:flex-start;}
-  .product_row span{margin-bottom:4px;}
-}
-</style>
+    @media(max-width: 768px) {
+      .nav_items { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: var(--dark-nav); flex-direction: column; padding: 20px; }
+      .nav_items.active { display: flex; }
+      .menu-toggle { display: block !important; color: white; font-size: 1.5rem; cursor: pointer; margin-left: 15px; }
+      .heading { font-size: 1.8rem; }
+    }
+  </style>
 </head>
 
 <body>
 
 <header>
-<nav class="navbar">
-  <div class="logo">Efoyta Tech</div>
-  <ul class="nav_items">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="order.html" class="active">Order</a></li>
-    <li><a href="contact.html">Contact</a></li>
-     <li><a href="about.html">About Us</a></li>
-  </ul>
-</nav>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Efoyta <span>Tech</span></a>
+    
+    <div style="display: flex; align-items: center;">
+      <ul class="nav_items" id="nav-list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="order.html" class="active">New Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <div class="profile-container">
+        <div class="profile-trigger" id="profileTrigger">
+          <i class="ri-user-3-line"></i> Account
+        </div>
+        <div class="profile-dropdown" id="profileMenu">
+          <a href="user.html"><i class="ri-dashboard-line"></i> Dashboard</a>
+          <a href="#" id="logoutBtn" style="color: #ef4444;"><i class="ri-logout-box-r-line"></i> Logout</a>
+        </div>
+      </div>
+
+      <div class="menu-toggle" id="mobile-menu" style="display: none;">
+        <i class="ri-menu-line"></i>
+      </div>
+    </div>
+  </nav>
 </header>
 
 <section class="sec">
-<div class="head_1">
-  <h3 class="sub_heading">Place Your Order</h3>
-  <h1 class="heading">Customize Your Printed Products</h1>
-  <p class="para">Select multiple products, upload design & receipt, and submit your order.</p>
-</div>
+  <div class="head_1">
+    <h3 class="sub_heading">Start a project</h3>
+    <h1 class="heading">Customize Your Order</h1>
+    <p>Upload your design and payment receipt to begin.</p>
+  </div>
 
-<div class="order_container">
-<form class="order_form" id="orderForm">
+  <div class="order_container">
+    <form class="order_form" id="orderForm">
+      <div>
+        <label>Select Product</label>
+        <select id="material" style="margin-top: 8px;">
+          <option value="">Choose Product...</option>
+          <optgroup label="Paper Bags (Duplex)">
+            <option data-price="35">Small – 35 ETB</option>
+            <option data-price="45">Medium – 45 ETB</option>
+            <option data-price="60">Large – 60 ETB</option>
+          </optgroup>
+          <optgroup label="Clothing & Merch">
+            <option data-price="80">T-Shirt - 80 ETB</option>
+            <option data-price="120">Hoodie - 120 ETB</option>
+            <option data-price="90">Mugs - 90 ETB</option>
+          </optgroup>
+        </select>
+      </div>
 
-<label>Select Product</label>
-<select id="material">
-<option value="">Choose Product</option>
+      <div style="display: flex; gap: 15px; align-items: flex-end;">
+        <div style="flex: 1;">
+          <label>Quantity</label>
+          <input type="number" id="quantity" min="1" value="1" style="margin-top: 8px;">
+        </div>
+        <button type="button" class="btn" onclick="addProduct()" style="height: 50px;">Add</button>
+      </div>
 
-<!-- 🔒 PRODUCT LIST UNCHANGED -->
-<optgroup label="Paper Bags – Duplex (With Logo)">
-<option data-price="35">Small – 35 ETB</option>
-<option data-price="45">Medium (1) – 45 ETB</option>
-<option data-price="50">Medium (2) – 50 ETB</option>
-<option data-price="60">Large – 60 ETB</option>
-</optgroup>
+      <div class="products_box" id="productsBox">
+        <p style="text-align: center; color: #94a3b8; font-size: 0.85rem;">No products added yet.</p>
+      </div>
 
-<optgroup label="Paper Bags – Duplex (Without Logo)">
-<option data-price="30">Small – 30 ETB</option>
-<option data-price="42">Medium (1) – 42 ETB</option>
-<option data-price="45">Medium (2) – 45 ETB</option>
-<option data-price="55">Large – 55 ETB</option>
-</optgroup>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div>
+          <label>Design File (Logo)</label>
+          <input type="file" id="logo" required style="margin-top: 8px;">
+        </div>
+        <div>
+          <label>Payment Receipt</label>
+          <input type="file" id="receipt" required style="margin-top: 8px;">
+        </div>
+      </div>
 
-<optgroup label="Paper Bags – Kaki Imported (With Logo)">
-<option data-price="30">Small – 30 ETB</option>
-<option data-price="35">Medium (1) – 35 ETB</option>
-<option data-price="40">Medium (2) – 40 ETB</option>
-<option data-price="53">Large – 53 ETB</option>
-</optgroup>
+      <div style="background:#f0f7ff; padding: 15px; border-radius: 12px; border: 1px dashed var(--primary); font-size: 0.85rem;">
+        <p><strong>Payment Account (Telebirr):</strong> +251 90 799 2963</p>
+        <p><strong>CBE:</strong> 1000123456789 (Efoyta Tech)</p>
+      </div>
 
-<optgroup label="Paper Bags – Kaki Imported (Without Logo)">
-<option data-price="23">Small (24×19 cm) – 23 ETB</option>
-<option data-price="30">Medium (24×35 cm) – 30 ETB</option>
-<option data-price="35">Medium (34×35 cm) – 35 ETB</option>
-<option data-price="40">Large (40×35 cm) – 40 ETB</option>
-</optgroup>
+      <label>Full Name</label>
+      <input type="text" id="name" required placeholder="Enter your full name">
 
-<optgroup label="Other Products">
-<option data-price="40">Cap-40 ETB</option>
-<option data-price="80">T-Shirt-80 ETB</option>
-<option data-price="70">Hoodie-70 ETB</option>
-<option data-price="90">Jacket-90 ETB</option>
-<option data-price="80">Mugs & Cups-80 ETB</option>
-<option data-price="90">Glass Bottles-90 ETB</option>
-<option data-price="80">Tote / Fabric Bag-80 ETB</option>
-<option data-price="80">Scarf-80 ETB</option>
-<option data-price="70">Apron-70 ETB</option>
-<option data-price="60">Poster-60 ETB</option>
-<option data-price="90">Flyer-90 ETB</option>
-</optgroup>
-</select>
+      <label>Contact Email</label>
+      <input type="email" id="email" required placeholder="Enter your email">
 
-<label>Quantity</label>
-<input type="number" id="quantity" min="1" value="1">
+      <label>Phone Number</label>
+      <input type="tel" id="phone" required placeholder="+251...">
 
-<button type="button" class="btn" onclick="addProduct()">Add Product</button>
+      <div class="order_summary">
+        <p>Total Amount</p>
+        <h4><span id="totalPrice">0</span> ETB</h4>
+      </div>
 
-<div class="products_box" id="productsBox"></div>
-
-<label>Upload Logo / Design</label>
-<input type="file" id="logo" required>
-
-<label>Upload Payment Receipt Telebirr</label>
-<label>Payment Information</label>
-<div style="background:#f0f8ff;padding:1rem;border-radius:10px;font-size:1rem;color:#004a80;">
-  <p>Telebirr: +251 90 799 2963</p>
-  <p>CBE Abissiniya Bank: Account No. 10000</p>
-  <p>Abissiniya Bank: Account No. 56...</p>
-</div>
-
-<input type="file" id="receipt" required>
-<label>Delivery Option</label> <select id="delivery" required> <option value="">Choose</option> <option>Pickup</option> <option>Delivery</option> </select> 
-<label>Delivery Address (if delivery)</label> <textarea id="address"></textarea>
-<label>Full Name</label>
-<input type="text" id="name" required>
-
-<label>Email</label>
-<input type="email" id="email" required>
-<label>Phone Number</label>
-<input type="phone number" id="phone" required>
-
-
-<div class="order_summary">
-<h4>Total: <span id="totalPrice">0</span> ETB</h4>
-</div>
-
-<button class="btn" type="submit">Place Order</button>
-
-</form>
-</div>
+      <button class="btn" type="submit" id="submitBtn">Place Order Now</button>
+    </form>
+  </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
-<footer id="contact" style="background:#0f172a;color:#fff;padding:2rem 1rem;font-family:'Poppins',sans-serif;">
-  <div class="footer-container" style="max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;">
-    
-    <!-- About & Logo -->
-    <div class="footer-about" style="flex:1;min-width:220px;">
-      <h4 style="font-size:1.2rem;font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Efoyta Technologies Solution</h4>
-      <p style="font-size:0.9rem;color:#ccc;">Providing professional printing solutions across Ethiopia with quality and reliability.</p>
+<footer class="unified-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4 style="color: var(--primary);">Efoyta Tech</h4>
+      <p>The standard for digital printing in Ethiopia. High quality, zero hassle printing for your brand.</p>
     </div>
-
-    <!-- Quick Links -->
-    <div class="footer-links" style="flex:1;min-width:180px;">
-      <h4 style="font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Quick Links</h4>
-      <ul style="list-style:none;padding:0;font-size:0.9rem;">
-        <li><a href="index.html" style="color:#ccc;text-decoration:none;">Home</a></li>
-        <li><a href="about.html" style="color:#ccc;text-decoration:none;">About</a></li>
-        <li><a href="privacy.html" style="color:#ccc;text-decoration:none;">Privacy Policy</a></li>
-        <li><a href="term.html" style="color:#ccc;text-decoration:none;">Terms & Conditions</a></li>
-        <li><a href="contact.html" style="color:#ccc;text-decoration:none;">Contact</a></li>
-      </ul>
+    <div class="footer-col">
+      <h4>Navigation</h4>
+      <a href="index.html">Home</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
     </div>
-
-    <!-- Contact Info -->
-    <div class="footer-contact" style="flex:1;min-width:220px;">
-      <h4 style="font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Contact</h4>
-      <p style="font-size:0.9rem;color:#ccc;"><i class="ri-mail-fill" style="margin-right:5px;"></i> eliyasminase123@gmail.com</p>
-      <p style="font-size:0.9rem;color:#ccc;"><i class="ri-phone-fill" style="margin-right:5px;"></i> +251 90 799 2963</p>
-      <p style="font-size:0.9rem;color:#ccc;"><i class="ri-telegram-fill" style="margin-right:5px;"></i> @EfoytaTech</p>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <p>+251 90 799 2963</p>
+      <p>Addis Ababa, Ethiopia</p>
     </div>
-
-   <!-- Social Links -->
-<div class="footer-socials" style="flex:1;min-width:180px;">
-  <h4 style="font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Follow Us</h4>
-  <ul style="display:flex;gap:10px;list-style:none;padding:0;margin:0;">
-    <li>
-      <a href="mailto:eliyasminase123@gmail.com" style="color: inherit; text-decoration: none; font-size:1.2rem;">
-        <i class="ri-mail-fill"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://t.me/Lilyteoes" target="_blank" style="color: inherit; font-size:1.2rem;">
-        <i class="ri-telegram-fill"></i>
-      </a>
-    </li>
-    <li>
-      <a href="https://www.tiktok.com/@yourusername" target="_blank" style="color: inherit; font-size:1.2rem;">
-        <i class="ri-tiktok-fill"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-
-
   </div>
-
-  <div class="footer-bottom" style="text-align:center;margin-top:2rem;font-size:0.8rem;color:#888;">
-    <p>© 2025 Efoyta Technologies Solution. All Rights Reserved.</p>
-  </div>
+  <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem;">© 2025 Efoyta Print Solutions.</p>
 </footer>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+  import { getAuth, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
-/* ================= FIREBASE INIT (UNCHANGED) ================= */
-const app = initializeApp({
-  apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
-  authDomain: "ordering-fd42a.firebaseapp.com",
-  databaseURL: "https://ordering-fd42a-default-rtdb.firebaseio.com/",
-  projectId: "ordering-fd42a",
-  messagingSenderId: "379564875478",
-  appId: "1:379564875478:web:42bc00e70a594bc24ef377"
-});
+  const firebaseConfig = {
+    apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
+    authDomain: "ordering-fd42a.firebaseapp.com",
+    databaseURL: "https://ordering-fd42a-default-rtdb.firebaseio.com/",
+    projectId: "ordering-fd42a",
+    messagingSenderId: "379564875478",
+    appId: "1:379564875478:web:42bc00e70a594bc24ef377"
+  };
 
-const db = getDatabase(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const auth = getAuth(app);
 
-/* ================= DOM ELEMENTS ================= */
-const material = document.getElementById("material");
-const quantity = document.getElementById("quantity");
-const logo = document.getElementById("logo");
-const receipt = document.getElementById("receipt");
-const delivery = document.getElementById("delivery");
-const address = document.getElementById("address");
-const name = document.getElementById("name");
-const email = document.getElementById("email");
-const phone = document.getElementById("phone");
+  // --- MENU LOGIC ---
+  const menuBtn = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  const profileTrigger = document.getElementById('profileTrigger');
+  const profileMenu = document.getElementById('profileMenu');
 
-const products = [];
-const box = document.getElementById("productsBox");
-const totalEl = document.getElementById("totalPrice");
+  menuBtn.onclick = () => navList.classList.toggle('active');
+  profileTrigger.onclick = (e) => { e.stopPropagation(); profileMenu.classList.toggle('show'); };
+  document.onclick = () => profileMenu.classList.remove('show');
 
-/* ================= ADD PRODUCT ================= */
-window.addProduct = () => {
-  const sel = material.options[material.selectedIndex];
-  const qty = parseInt(quantity.value);
+  // --- ORDER LOGIC ---
+  const products = [];
+  const box = document.getElementById("productsBox");
+  const totalEl = document.getElementById("totalPrice");
 
-  if (!sel.dataset.price || qty < 1) {
-    alert("Select a product and quantity.");
-    return;
-  }
+  window.addProduct = () => {
+    const material = document.getElementById("material");
+    const quantity = document.getElementById("quantity");
+    const sel = material.options[material.selectedIndex];
+    const qty = parseInt(quantity.value);
 
-  products.push({
-    name: sel.textContent,
-    price: Number(sel.dataset.price),
-    qty
-  });
+    if (!sel.dataset.price || qty < 1) return alert("Select product and quantity!");
 
-  renderProducts();
-};
-
-function renderProducts() {
-  box.innerHTML = "";
-  let total = 0;
-
-  products.forEach((p, i) => {
-    total += p.price * p.qty;
-
-    const div = document.createElement("div");
-    div.className = "product_row";
-    div.innerHTML = `<span>${p.qty} × ${p.name}</span><span>${p.price * p.qty} ETB</span>`;
-
-    const btn = document.createElement("button");
-    btn.className = "remove";
-    btn.textContent = "X";
-    btn.onclick = () => {
-      products.splice(i, 1);
-      renderProducts();
-    };
-
-    div.appendChild(btn);
-    box.appendChild(div);
-  });
-
-  totalEl.textContent = total;
-}
-
-/* ================= CLOUDINARY UPLOAD (NEW) ================= */
-async function uploadToCloudinary(file) {
-  const CLOUD_NAME = "ddbn2w991";       // 🔴 change this
-  const UPLOAD_PRESET = "efoyta_upload";      // 🔴 your unsigned preset
-
-  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
-
-  const formData = new FormData();
-  formData.append("file", file);
-  formData.append("upload_preset", UPLOAD_PRESET);
-
-  const res = await fetch(url, { method: "POST", body: formData });
-  const data = await res.json();
-
-  if (!data.secure_url) throw new Error("Upload failed");
-  return data.secure_url;
-}
-
-/* ================= SUBMIT ORDER ================= */
-document.getElementById("orderForm").addEventListener("submit", async e => {
-  e.preventDefault();
-
-  if (products.length === 0) {
-    alert("Please add at least one product.");
-    return;
-  }
-
-  try {
-    const logoFile = logo.files[0];
-    const receiptFile = receipt.files[0];
-
-    if (!logoFile || !receiptFile) {
-      alert("Please upload both logo/design and receipt.");
-      return;
-    }
-
-    const logoURL = await uploadToCloudinary(logoFile);
-    const receiptURL = await uploadToCloudinary(receiptFile);
-
-    await push(ref(db, "orders"), {
-      products,
-      totalETB: totalEl.textContent,
-      delivery: delivery.value,
-      address: address.value,
-      name: name.value,
-      email: email.value,
-      phone: phone.value,
-      logoURL,
-      receiptURL,
-      time: new Date().toISOString()
-    });
-
-    alert("✅ Order submitted successfully!");
-    document.getElementById("orderForm").reset();
-    products.length = 0;
+    products.push({ name: sel.textContent, price: Number(sel.dataset.price), qty });
     renderProducts();
+  };
 
-  } catch (error) {
-    console.error(error);
-    alert("❌ Failed to submit order.");
+  function renderProducts() {
+    box.innerHTML = products.length ? "" : '<p style="text-align: center; color: #94a3b8;">No products added.</p>';
+    let total = 0;
+    products.forEach((p, i) => {
+      total += p.price * p.qty;
+      const div = document.createElement("div");
+      div.className = "product_row";
+      div.innerHTML = `<span>${p.qty}x ${p.name}</span><strong>${p.price * p.qty} ETB</strong>`;
+      const del = document.createElement("button");
+      del.className = "remove"; del.textContent = "Remove";
+      del.onclick = () => { products.splice(i, 1); renderProducts(); };
+      div.appendChild(del); box.appendChild(div);
+    });
+    totalEl.textContent = total;
   }
-});
-</script>
 
+  async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "efoyta_upload");
+    const res = await fetch("https://api.cloudinary.com/v1_1/ddbn2w991/image/upload", { method: "POST", body: formData });
+    const data = await res.json();
+    return data.secure_url;
+  }
+
+  document.getElementById("orderForm").onsubmit = async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById("submitBtn");
+    if (!products.length) return alert("Add a product first!");
+
+    btn.disabled = true; btn.textContent = "Uploading Files...";
+    
+    try {
+      const logoURL = await uploadToCloudinary(document.getElementById("logo").files[0]);
+      const receiptURL = await uploadToCloudinary(document.getElementById("receipt").files[0]);
+
+      await push(ref(db, "orders"), {
+        products, totalETB: totalEl.textContent,
+        name: document.getElementById("name").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        logoURL, receiptURL, status: "Pending",
+        time: new Date().toISOString()
+      });
+
+      alert("Order Placed Successfully!");
+      window.location.href = "user.html";
+    } catch (err) {
+      alert("Error placing order. Try again.");
+      btn.disabled = false; btn.textContent = "Place Order Now";
+    }
+  };
+
+  document.getElementById("logoutBtn").onclick = () => signOut(auth).then(() => window.location.href="login.html");
+</script>
 </body>
 </html>

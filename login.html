@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Efoyta Tech</title>
+    <link rel="icon" type="image/png" href="img/favi.png">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
+    <style>
+        /* CSS Reset & Variables */
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
+        body { background:#eef2ff; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; }
+        
+        .card { 
+            background:#fff; width:100%; max-width:1000px; border-radius:40px; 
+            box-shadow:0 15px 35px rgba(0,0,0,0.05); padding:30px 60px 60px 60px; position:relative; 
+        }
+        
+        header { border-bottom:1px solid #ececec; margin-bottom:40px; display:flex; justify-content:space-between; align-items:center; }
+        .brand-logo { font-size: 22px; font-weight: 700; color: #333; text-decoration: none; }
+        .brand-logo span { color: #4378ff; }
+
+        nav ul { display:flex; list-style:none; gap:35px; padding:10px 0; }
+        nav ul li a { text-decoration:none; color:#666; font-size:14px; font-weight:500; transition:0.3s; }
+        .active-link { color:#4378ff !important; border-bottom:2px solid #4378ff; padding-bottom:10px; }
+
+        .container { display:flex; align-items:center; justify-content:space-between; gap:40px; }
+        .form-section { flex:1; max-width:360px; }
+        .form-section h1 { font-size:42px; font-weight:400; color:#333; margin-bottom:30px; }
+
+        .input-group { background:#f0f0f0; border:1px solid #dcdcdc; border-radius:30px; padding:12px 20px; display:flex; align-items:center; margin-bottom:15px; }
+        .input-group span { color:#333; margin-right:12px; font-size:18px; }
+        .input-group input { background:transparent; border:none; outline:none; width:100%; font-size:14px; color:#666; }
+
+        .form-options { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; font-size:12px; color:#999; }
+        .forgot-pass { text-decoration:none; color:#999; font-style:italic; cursor:pointer; }
+        
+        .action-btn { 
+            width:100%; background-color:#4378ff; color:white; border:none; padding:14px; 
+            border-radius:30px; font-size:16px; font-weight:600; cursor:pointer; 
+            box-shadow:0 4px 15px rgba(67,120,255,0.3); transition:0.3s; 
+        }
+        .action-btn:hover { background-color:#3563d9; transform:translateY(-1px); }
+
+        .toggle-text { margin-top:20px; font-size:14px; color:#333; text-align:center; }
+        .toggle-text a { color:#4378ff; text-decoration:none; font-weight:600; cursor:pointer; }
+
+        .illustration-section { flex:1; display:flex; justify-content:center; align-items:center; position:relative; }
+        .blob { position:absolute; width:450px; height:400px; background:#dbeafe; border-radius:42% 58% 70% 30% / 45% 45% 55% 55%; z-index:1; }
+        .illustration-section img { position:relative; z-index:2; width:100%; max-width:350px; filter:drop-shadow(0 20px 30px rgba(0,0,0,0.1)); }
+
+        @media(max-width:850px){
+            header { flex-direction:column; gap:10px; }
+            .container { flex-direction:column; text-align:center; }
+            .illustration-section { display:none; }
+            .form-section { max-width:100%; }
+            nav ul { justify-content:center; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <header>
+        <a href="index.html" class="brand-logo">Efoyta <span>Tech</span></a>
+        <nav>
+            <ul>
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="about.html">ABOUT</a></li>
+                <li><a href="contact.html">CONTACT</a></li>
+                <li><a href="#" class="active-link" id="navActionText">SIGNUP</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="form-section">
+            <h1 id="formTitle">Log in</h1>
+            <form id="authForm">
+                <div class="input-group">
+                    <span class="ri-mail-line"></span>
+                    <input type="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <span class="ri-lock-line"></span>
+                    <input type="password" id="password" placeholder="Password" required>
+                </div>
+
+                <div class="form-options">
+                    <label style="display: flex; align-items: center; gap: 5px;">
+                        <input type="checkbox" id="rememberMe"> Remember Me
+                    </label>
+                    <a class="forgot-pass" id="forgotPassword">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="action-btn" id="authBtn">Log in</button>
+            </form>
+            <p class="toggle-text" id="toggleText">Don't have an account? <a id="toggleForm">Sign up</a></p>
+        </div>
+
+        <div class="illustration-section">
+            <div class="blob"></div>
+            <img src="img/login image.png" alt="Login Illustration">
+        </div>
+    </div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+    import { 
+        getAuth, 
+        signInWithEmailAndPassword, 
+        createUserWithEmailAndPassword, 
+        sendPasswordResetEmail, 
+        onAuthStateChanged 
+    } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
+        authDomain: "ordering-fd42a.firebaseapp.com",
+        projectId: "ordering-fd42a",
+        storageBucket: "ordering-fd42a.firebasestorage.app",
+        messagingSenderId: "379564875478",
+        appId: "1:379564875478:web:42bc00e70a594bc24ef377"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const adminEmail = "admin@gmail.com";
+
+    const authForm = document.getElementById("authForm");
+    const authBtn = document.getElementById("authBtn");
+    const formTitle = document.getElementById("formTitle");
+    const toggleText = document.getElementById("toggleText");
+    const navActionText = document.getElementById("navActionText");
+
+    let isLogin = true;
+
+    // Function to handle Toggle UI
+    function toggleUI() {
+        isLogin = !isLogin;
+        formTitle.textContent = isLogin ? "Log in" : "Sign Up";
+        authBtn.textContent = isLogin ? "Log in" : "Sign Up";
+        navActionText.textContent = isLogin ? "SIGNUP" : "LOGIN";
+        
+        toggleText.innerHTML = isLogin 
+            ? `Don't have an account? <a id="toggleForm">Sign up</a>` 
+            : `Already have an account? <a id="toggleForm">Log in</a>`;
+        
+        // Re-attach listener to the newly created anchor tag
+        document.getElementById("toggleForm").onclick = (e) => {
+            e.preventDefault();
+            toggleUI();
+        };
+    }
+
+    // Initial listener
+    document.getElementById("toggleForm").onclick = (e) => {
+        e.preventDefault();
+        toggleUI();
+    };
+
+    // FORM SUBMISSION
+    authForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value;
+
+        authBtn.disabled = true;
+        authBtn.textContent = "Processing...";
+
+        if (isLogin) {
+            signInWithEmailAndPassword(auth, email, password)
+                .catch(err => {
+                    alert("Error: " + err.message);
+                    authBtn.disabled = false;
+                    authBtn.textContent = "Log in";
+                });
+        } else {
+            createUserWithEmailAndPassword(auth, email, password)
+                .then(() => alert("Registration successful! You can now log in."))
+                .catch(err => {
+                    alert("Error: " + err.message);
+                    authBtn.disabled = false;
+                    authBtn.textContent = "Sign Up";
+                });
+        }
+    });
+
+    // AUTH STATE CHECKER (The Redirector)
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is logged in, send them to the right page
+            if (user.email === adminEmail) {
+                window.location.href = "admin.html";
+            } else {
+                window.location.href = "user.html"; 
+            }
+        }
+    });
+
+    // FORGOT PASSWORD
+    document.getElementById("forgotPassword").onclick = () => {
+        const email = document.getElementById("email").value;
+        if (!email) {
+            alert("Please enter your email in the box first.");
+            return;
+        }
+        sendPasswordResetEmail(auth, email)
+            .then(() => alert("Reset link sent to your email!"))
+            .catch(err => alert(err.message));
+    };
+</script>
+
+</body>
+</html>

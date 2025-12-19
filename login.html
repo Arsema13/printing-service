@@ -8,7 +8,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
     <style>
-        /* CSS Reset & Variables */
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
         body { background:#eef2ff; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; }
         
@@ -69,7 +68,7 @@
                 <li><a href="index.html">HOME</a></li>
                 <li><a href="about.html">ABOUT</a></li>
                 <li><a href="contact.html">CONTACT</a></li>
-                <li><a href="#" class="active-link" id="navActionText">SIGNUP</a></li>
+                <li><a href="#" class="active-link" id="navActionText">LOGIN</a></li>
             </ul>
         </nav>
     </header>
@@ -89,7 +88,7 @@
 
                 <div class="form-options">
                     <label style="display: flex; align-items: center; gap: 5px;">
-                        <input type="checkbox" id="rememberMe"> Remember Me
+                        <input type="checkbox" id="rememberMe" checked> Remember Me
                     </label>
                     <a class="forgot-pass" id="forgotPassword">Forgot Password?</a>
                 </div>
@@ -135,42 +134,37 @@
     const toggleText = document.getElementById("toggleText");
     const navActionText = document.getElementById("navActionText");
 
-    let isLogin = true;
+    let isLoginMode = true;
 
-    // Function to handle Toggle UI
-    function toggleUI() {
-        isLogin = !isLogin;
-        formTitle.textContent = isLogin ? "Log in" : "Sign Up";
-        authBtn.textContent = isLogin ? "Log in" : "Sign Up";
-        navActionText.textContent = isLogin ? "SIGNUP" : "LOGIN";
-        
-        toggleText.innerHTML = isLogin 
-            ? `Don't have an account? <a id="toggleForm">Sign up</a>` 
-            : `Already have an account? <a id="toggleForm">Log in</a>`;
-        
-        // Re-attach listener to the newly created anchor tag
-        document.getElementById("toggleForm").onclick = (e) => {
+    // Fixed Toggle Logic
+    document.addEventListener('click', function (e) {
+        if (e.target && e.target.id === 'toggleForm') {
             e.preventDefault();
-            toggleUI();
-        };
-    }
+            isLoginMode = !isLoginMode;
+            
+            formTitle.textContent = isLoginMode ? "Log in" : "Sign Up";
+            authBtn.textContent = isLoginMode ? "Log in" : "Sign Up";
+            
+            if (isLoginMode) {
+                toggleText.innerHTML = `Don't have an account? <a id="toggleForm">Sign up</a>`;
+                navActionText.textContent = "LOGIN";
+            } else {
+                toggleText.innerHTML = `Already have an account? <a id="toggleForm">Log in</a>`;
+                navActionText.textContent = "SIGNUP";
+            }
+        }
+    });
 
-    // Initial listener
-    document.getElementById("toggleForm").onclick = (e) => {
-        e.preventDefault();
-        toggleUI();
-    };
-
-    // FORM SUBMISSION
+    // Login/Signup Action
     authForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value;
 
         authBtn.disabled = true;
-        authBtn.textContent = "Processing...";
+        authBtn.textContent = "Please wait...";
 
-        if (isLogin) {
+        if (isLoginMode) {
             signInWithEmailAndPassword(auth, email, password)
                 .catch(err => {
                     alert("Error: " + err.message);
@@ -179,7 +173,9 @@
                 });
         } else {
             createUserWithEmailAndPassword(auth, email, password)
-                .then(() => alert("Registration successful! You can now log in."))
+                .then(() => {
+                    alert("Account created! Logging you in...");
+                })
                 .catch(err => {
                     alert("Error: " + err.message);
                     authBtn.disabled = false;
@@ -188,10 +184,10 @@
         }
     });
 
-    // AUTH STATE CHECKER (The Redirector)
+    // Auto-Redirect logic (Only runs if user is logged in)
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // User is logged in, send them to the right page
+            // Check if user is admin or regular user
             if (user.email === adminEmail) {
                 window.location.href = "admin.html";
             } else {
@@ -200,15 +196,15 @@
         }
     });
 
-    // FORGOT PASSWORD
+    // Forgot Password
     document.getElementById("forgotPassword").onclick = () => {
         const email = document.getElementById("email").value;
         if (!email) {
-            alert("Please enter your email in the box first.");
+            alert("Please type your email first.");
             return;
         }
         sendPasswordResetEmail(auth, email)
-            .then(() => alert("Reset link sent to your email!"))
+            .then(() => alert("Password reset link sent! Check your inbox."))
             .catch(err => alert(err.message));
     };
 </script>

@@ -17,7 +17,7 @@
       --slate: #64748b;
       --bg: #f8fafc;
       --white: #ffffff;
-      --nav-glass: rgba(15, 23, 42, 0.95);
+      --nav-glass: rgba(15, 23, 42, 0.98);
     }
 
     /* ================= NAVBAR ================= */
@@ -27,7 +27,8 @@
       padding: 15px 10%; background: var(--nav-glass);
       backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      z-index: 2000;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     }
     .logo { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; }
     .logo span { color: var(--primary); }
@@ -36,33 +37,37 @@
     .nav_items li a { text-decoration: none; color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 0.95rem; transition: 0.3s ease; }
     .nav_items li a:hover, .nav_items li a.active { color: var(--primary); }
     
-    /* Desktop Buttons */
     .nav_btns { display: flex; gap: 10px; }
-    
-    /* Mobile-only menu items */
-    .mobile-only { display: none; }
+    .mobile-only { display: none; } /* Hidden on Desktop */
 
     .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
 
     @media (max-width: 768px) {
       .menu-toggle { display: block; }
-      .nav_btns { display: none; } /* Hide the separate right-side buttons */
+      .nav_btns { display: none; } 
       
-      .mobile-only { display: block; } /* Show auth links inside the list */
+      .mobile-only { display: block; } /* Show in the list on Mobile */
       
       .nav_items {
-        position: fixed; top: 70px; left: -100%; flex-direction: column;
-        background: var(--nav-glass); width: 100%; text-align: center;
-        padding: 40px 0; transition: 0.5s ease; height: 100vh;
+        position: fixed; 
+        top: 0; 
+        padding-top: 100px;
+        left: -100%; 
+        flex-direction: column;
+        background: var(--dark);
+        width: 100%; 
+        height: 100vh;
+        transition: 0.4s ease-in-out;
+        z-index: 1500;
       }
       .nav_items.active { left: 0; }
-      .nav_items li { margin: 15px 0; }
+      .nav_items li { margin: 15px 0; width: 100%; text-align: center; }
       
-      /* Style buttons inside mobile menu */
-      .nav_items .btn {
-        width: 80%;
-        margin: 10px auto;
-        display: block;
+      /* Make mobile-only links look like the rest of the nav */
+      .nav_items li.mobile-only a {
+        font-size: 0.95rem;
+        color: rgba(255, 255, 255, 0.85);
+        font-weight: 500;
       }
     }
 
@@ -97,9 +102,8 @@
       <li><a href="signup.html">Order</a></li>
       <li><a href="contact.html">Contact</a></li>
       
-      <li class="mobile-only"><hr style="border: 0.5px solid rgba(255,255,255,0.1); margin: 10px 20%;"></li>
-      <li class="mobile-only"><a href="login.html">Sign In</a></li>
-      <li class="mobile-only"><a href="signup.html" style="color: var(--primary);">Create Account</a></li>
+      <li class="mobile-only"><a href="login.html">Login</a></li>
+      <li class="mobile-only"><a href="signup.html">Sign Up</a></li>
     </ul>
 
     <div class="nav_btns">
@@ -112,18 +116,12 @@
 <section class="main" style="padding-top: 120px;">
   <div class="left">
     <h1>Efoyta <br> Tech Solutions</h1>
-    <p>
-      Elevate your brand with precision. We specialize in high-quality 
-      logo printing on paper bags, apparel, and custom merchandise 
-      using industry-leading automatic technology.
-    </p>
-
+    <p>Elevate your brand with precision. We specialize in high-quality logo printing on paper bags, apparel, and custom merchandise using industry-leading automatic technology.</p>
     <div class="main_btn">
       <a href="signup.html" class="btn btn2">Place Order</a>
       <a href="about.html" class="btn btn1" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Explore Services</a>
     </div>
   </div>
-
   <div class="right">
     <img src="img/back.png" alt="Automatic Printing Machine" />
   </div>
@@ -150,43 +148,6 @@
       <h4>Fast Production</h4>
       <p>Quick turnaround for small and bulk orders.</p>
     </div>
-  </div>
-</section>
-
-<section class="sec products">
-  <div class="head_1">
-    <h3 class="sub_heading">Our Products</h3>
-    <h1 class="heading">Print On Any Surface</h1>
-  </div>
-  <div class="boxes" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between;">
-    <div class="box" style="flex:1 1 calc(33% - 20px);">
-      <img src="img/paper.png" alt="Paper Bags" style="width:100%;border-radius:10px;"/>
-      <h4>Paper Bags</h4>
-      <p>Custom logo printing on high-quality paper bags.</p>
-    </div>
-    <div class="box" style="flex:1 1 calc(33% - 20px);">
-      <img src="img/tishirt.png" alt="T-Shirts" style="width:100%;border-radius:10px;"/>
-      <h4>T-Shirts</h4>
-      <p>High-quality cotton t-shirts with your logo.</p>
-    </div>
-    <div class="box" style="flex:1 1 calc(33% - 20px);">
-      <img src="img/mag.png" alt="Mugs & Bottles" style="width:100%;border-radius:10px;"/>
-      <h4>Mugs & Bottles</h4>
-      <p>Durable mugs and bottles with professional prints.</p>
-    </div>
-  </div>
-</section>
-
-<section class="sec route">
-  <div class="head_1">
-    <h3 class="sub_heading">How It Works</h3>
-    <h1 class="heading">Simple 4-Step Process</h1>
-  </div>
-  <div class="boxes_1">
-    <div class="box_1"><span><i class="ri-file-list-3-fill"></i></span><h4>Select Product</h4></div>
-    <div class="box_1"><span><i class="ri-upload-cloud-2-fill"></i></span><h4>Upload Logo</h4></div>
-    <div class="box_1"><span><i class="ri-checkbox-circle-fill"></i></span><h4>Confirm Order</h4></div>
-    <div class="box_1"><span><i class="ri-printer-line"></i></span><h4>Production</h4></div>
   </div>
 </section>
 
@@ -229,7 +190,6 @@
     menuIcon.className = isOpen ? 'ri-close-line' : 'ri-menu-line';
   });
 
-  // Close menu when clicking a link
   document.querySelectorAll('.nav_items a').forEach(link => {
     link.addEventListener('click', () => {
       navList.classList.remove('active');

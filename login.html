@@ -136,21 +136,20 @@
 
     let isLoginMode = true;
 
-    // Fixed Toggle Logic
+    // Toggle Logic
     document.addEventListener('click', function (e) {
         if (e.target && e.target.id === 'toggleForm') {
             e.preventDefault();
             isLoginMode = !isLoginMode;
-            
             formTitle.textContent = isLoginMode ? "Log in" : "Sign Up";
             authBtn.textContent = isLoginMode ? "Log in" : "Sign Up";
             
             if (isLoginMode) {
                 toggleText.innerHTML = `Don't have an account? <a id="toggleForm">Sign up</a>`;
-                navActionText.textContent = "LOGIN";
+                navActionText.textContent = "signup";
             } else {
                 toggleText.innerHTML = `Already have an account? <a id="toggleForm">Log in</a>`;
-                navActionText.textContent = "SIGNUP";
+                navActionText.textContent = "login";
             }
         }
     });
@@ -166,6 +165,17 @@
 
         if (isLoginMode) {
             signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    alert("Login Successful!");
+                    
+                    // You can now manually choose when to redirect
+                    if (user.email === adminEmail) {
+                        window.location.href = "admin.html";
+                    } else {
+                        window.location.href = "profile.html"; 
+                    }
+                })
                 .catch(err => {
                     alert("Error: " + err.message);
                     authBtn.disabled = false;
@@ -174,7 +184,13 @@
         } else {
             createUserWithEmailAndPassword(auth, email, password)
                 .then(() => {
-                    alert("Account created! Logging you in...");
+                    alert("Account created successfully! You can now log in.");
+                    // Reset form and switch to login mode instead of redirecting
+                    isLoginMode = true;
+                    formTitle.textContent = "Log in";
+                    authBtn.textContent = "Log in";
+                    authBtn.disabled = false;
+                    toggleText.innerHTML = `Don't have an account? <a id="toggleForm">Sign up</a>`;
                 })
                 .catch(err => {
                     alert("Error: " + err.message);
@@ -184,17 +200,8 @@
         }
     });
 
-    // Auto-Redirect logic (Only runs if user is logged in)
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // Check if user is admin or regular user
-            if (user.email === adminEmail) {
-                window.location.href = "admin.html";
-            } else {
-                window.location.href = "profile.html"; 
-            }
-        }
-    });
+    // REMOVED: The automatic onAuthStateChanged redirect 
+    // This allows the user to actually see the alerts and process.
 
     // Forgot Password
     document.getElementById("forgotPassword").onclick = () => {
@@ -208,6 +215,5 @@
             .catch(err => alert(err.message));
     };
 </script>
-
 </body>
 </html>

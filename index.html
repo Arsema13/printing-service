@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Efoyta Tech</title>
+<link rel="icon" type="image/png" href="img/favi.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="img/favi.png">
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Standardized Styles for Header/Footer Consistency */
+    :root {
+      --primary: #2d5bff;
+      --primary-hover: #1f46d4;
+      --dark: #0f172a;
+      --slate: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --nav-glass: rgba(15, 23, 42, 0.95);
+    }
+
+    /* ================= NAVBAR ================= */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 10%; background: var(--nav-glass);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; }
+    .logo span { color: var(--primary); }
+    .nav_items { display: flex; list-style: none; gap: 30px; align-items: center; }
+    .nav_items li a { text-decoration: none; color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 0.95rem; transition: 0.3s ease; }
+    .nav_items li a:hover, .nav_items li a.active { color: var(--primary); }
+    
+    .nav_btns { display: flex; gap: 10px; }
+    .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav_items {
+        position: fixed; top: 70px; left: -100%; flex-direction: column;
+        background: var(--nav-glass); width: 100%; text-align: center;
+        padding: 40px 0; transition: 0.5s ease;
+      }
+      .nav_items.active { left: 0; }
+      .nav_items li { margin: 15px 0; }
+      .nav_btns { display: none; } /* Hidden on mobile for cleaner look */
+    }
+
+    /* ================= FOOTER ================= */
+    footer { background: var(--dark); color: #94a3b8; padding: 4rem 2rem 2rem; margin-top: 4rem; }
+    .footer_content { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 4rem; border-bottom: 1px solid #1e293b; padding-bottom: 3rem; }
+    .footer_col { flex: 1; min-width: 250px; }
+    .footer_col h4 { color: white; margin-bottom: 1.5rem; }
+    .footer_col p, .footer_col li { font-size: 0.9rem; margin-bottom: 10px; }
+    .footer_col ul { list-style: none; padding: 0; }
+    .footer_col a { color: inherit; text-decoration: none; transition: 0.3s ease; }
+    .footer_col a:hover { color: var(--primary); }
+    .footer_socials { display: flex; gap: 15px; margin-top: 1rem; }
+    .footer_socials a { font-size: 1.4rem; color: white; background: #1e293b; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s ease; }
+    .footer_socials a:hover { background: var(--primary); transform: translateY(-3px); }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Efoyta <span>Tech</span></a>
+    
+    <div class="menu-toggle" id="mobile-menu">
+      <i class="ri-menu-line"></i>
+    </div>
+
+    <ul class="nav_items" id="nav-list">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="order.html">Order</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="nav_btns">
+      <a href="signup.html"><button class="btn btn1">Sign Up</button></a>
+      <a href="login.html"><button class="btn btn2">Sign In</button></a>
+    </div>
+  </nav>
+</header>
+
+<section class="main" style="padding-top: 120px;">
+  <div class="left">
+    <h1>Efoyta  <br> Tech Solutions</h1>
+    <p>
+      Elevate your brand with precision. We specialize in high-quality 
+      logo printing on paper bags, apparel, and custom merchandise 
+      using industry-leading automatic technology.
+    </p>
+
+    <div class="main_btn">
+      <a href="order.html" class="btn btn2">Place Order</a>
+      <a href="about.html"><button class="btn btn1">Explore Services</button></a>
+    </div>
+  </div>
+
+  <div class="right">
+    <img src="img/back.png" alt="Automatic Printing Machine" />
+  </div>
+</section>
+
+<section class="about sec">
+  <div class="head">
+    <h3 class="sub_heading">Why Choose Us</h3>
+    <h1 class="heading">Modern • Fast • Reliable</h1>
+  </div>
+
+  <div class="boxes">
+    <div class="box">
+      <span><i class="ri-printer-fill"></i></span>
+      <h4>Automatic Machines</h4>
+      <p>High precision printing with consistent quality.</p>
+    </div>
+
+    <div class="box">
+      <span><i class="ri-settings-3-fill"></i></span>
+      <h4>Multiple Materials</h4>
+      <p>Paper bags, clothing, mugs, bottles & more.</p>
+    </div>
+
+    <div class="box">
+      <span><i class="ri-time-fill"></i></span>
+      <h4>Fast Production</h4>
+      <p>Quick turnaround for small and bulk orders.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec products">
+  <div class="head_1">
+    <h3 class="sub_heading">Our Products</h3>
+    <h1 class="heading">Print On Any Surface</h1>
+  </div>
+
+  <div class="boxes" style="display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between;">
+    <div class="box" style="flex:1 1 calc(33% - 20px);">
+      <img src="img/paper.png" alt="Paper Bags" style="width:100%;border-radius:10px;"/>
+      <h4>Paper Bags</h4>
+      <p>Custom logo printing on high-quality paper bags.</p>
+    </div>
+    <div class="box" style="flex:1 1 calc(33% - 20px);">
+      <img src="img/tishirt.png" alt="T-Shirts" style="width:100%;border-radius:10px;"/>
+      <h4>T-Shirts</h4>
+      <p>High-quality cotton t-shirts with your logo.</p>
+    </div>
+    <div class="box" style="flex:1 1 calc(33% - 20px);">
+      <img src="img/mag.png" alt="Mugs & Bottles" style="width:100%;border-radius:10px;"/>
+      <h4>Mugs & Bottles</h4>
+      <p>Durable mugs and bottles with professional prints.</p>
+    </div>
+    <div class="box" style="flex:1 1 calc(33% - 20px);">
+      <img src="img/aprone.png" alt="Aprone" style="width:100%;border-radius:10px;"/>
+      <h4>Aprone</h4>
+      <p>Branded aprons for staff and professional kitchens.</p>
+    </div>
+    <div class="box" style="flex:1 1 calc(33% - 20px);">
+      <img src="img/hoddie.png" alt="Hoodie" style="width:100%;border-radius:10px;"/>
+      <h4>Hoodies</h4>
+      <p>Customized hoodies for corporate or personal use.</p>
+    </div>
+    <div class="box" style="flex:1 1 calc(33% - 20px);">
+      <img src="img/cap.png" alt="Hats" style="width:100%;border-radius:10px;"/>
+      <h4>Hats & Caps</h4>
+      <p>Custom embroidered hats and caps for events.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec route">
+  <div class="head_1">
+    <h3 class="sub_heading">How It Works</h3>
+    <h1 class="heading">Simple 4-Step Process</h1>
+  </div>
+
+  <div class="boxes_1">
+    <div class="box_1"><span><i class="ri-file-list-3-fill"></i></span><h4>Select Product</h4></div>
+    <div class="box_1"><span><i class="ri-upload-cloud-2-fill"></i></span><h4>Upload Logo</h4></div>
+    <div class="box_1"><span><i class="ri-checkbox-circle-fill"></i></span><h4>Confirm Order</h4></div>
+    <div class="box_1"><span><i class="ri-printer-line"></i></span><h4>Production</h4></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer_content">
+    <div class="footer_col">
+      <h4>Efoyta Tech</h4>
+      <p>The standard for digital printing in Ethiopia. High quality, zero hassle.</p>
+      <div class="footer_socials">
+        <a href="https://t.me/Lilyteoes" target="_blank"><i class="ri-telegram-line"></i></a>
+        <a href="#"><i class="ri-tiktok-line"></i></a>
+        <a href="mailto:eliyasminase123@gmail.com"><i class="ri-mail-line"></i></a>
+      </div>
+    </div>
+    <div class="footer_col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="term.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer_col">
+      <h4>Reach Us</h4>
+      <p><i class="ri-phone-fill"></i> +251 90 799 2963</p>
+      <p><i class="ri-map-pin-2-fill"></i> Addis Ababa, Ethiopia</p>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem;">© 2025 Efoyta Print Solutions. All Rights Reserved.</p>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  const menuIcon = document.querySelector('#mobile-menu i');
+
+  menuBtn.addEventListener('click', () => {
+    navList.classList.toggle('active');
+    const isOpen = navList.classList.contains('active');
+    menuIcon.className = isOpen ? 'ri-close-line' : 'ri-menu-line';
+  });
+</script>
+
+</body>
+</html>

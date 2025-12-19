@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy - Efoyta Tech</title>
+  <link rel="icon" type="image/png" href="img/favi.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #2d5bff;
+      --primary-hover: #1f46d4;
+      --dark: #0f172a;
+      --slate: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --nav-glass: rgba(15, 23, 42, 0.95);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+
+    /* ================= NAVBAR (CONSISTENT) ================= */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 10%; background: var(--nav-glass);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; }
+    .logo span { color: var(--primary); }
+    .nav_items { display: flex; list-style: none; gap: 30px; }
+    .nav_items li a { text-decoration: none; color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 0.95rem; transition: 0.3s ease; }
+    .nav_items li a:hover, .nav_items li a.active { color: var(--primary); }
+    .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav_items {
+        position: fixed; top: 70px; left: -100%; flex-direction: column;
+        background: var(--nav-glass); width: 100%; text-align: center;
+        padding: 40px 0; transition: 0.5s ease;
+      }
+      .nav_items.active { left: 0; }
+      .nav_items li { margin: 15px 0; }
+    }
+
+    /* ================= HERO ================= */
+    .policy_hero {
+      padding: 10rem 2rem 4rem; text-align: center;
+      background: radial-gradient(circle at top right, #eef2ff, transparent);
+    }
+    .badge {
+      background: #dbeafe; color: var(--primary); padding: 6px 16px; 
+      border-radius: 50px; font-size: 0.8rem; font-weight: 700; 
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .policy_hero h1 { font-size: 3rem; margin-top: 1rem; color: var(--dark); letter-spacing: -1px; }
+
+    /* ================= CONTENT ================= */
+    .policy_wrapper {
+      max-width: 900px; margin: 0 auto 6rem; padding: 4rem;
+      background: var(--white); border-radius: 30px;
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.05); border: 1px solid #f1f5f9;
+    }
+    .policy_wrapper p { color: var(--slate); margin-bottom: 1.5rem; }
+    .policy_section { margin-bottom: 2.5rem; }
+    .policy_section h4 {
+      display: flex; align-items: center; gap: 12px;
+      font-size: 1.25rem; color: var(--dark); margin-bottom: 1rem;
+    }
+    .policy_section h4 i { color: var(--primary); font-size: 1.5rem; }
+    .policy_section ul { padding-left: 1.5rem; color: var(--slate); }
+    .policy_section ul li { margin-bottom: 0.5rem; }
+
+    .last_updated {
+      text-align: center; font-size: 0.85rem; color: var(--slate);
+      margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #f1f5f9;
+    }
+
+    /* ================= FOOTER (CONSISTENT) ================= */
+    footer { background: var(--dark); color: #94a3b8; padding: 4rem 2rem 2rem; margin-top: 4rem; }
+    .footer_content { max-width: 1200px; margin: auto; display: flex; flex-wrap: wrap; gap: 4rem; border-bottom: 1px solid #1e293b; padding-bottom: 3rem; }
+    .footer_col { flex: 1; min-width: 250px; }
+    .footer_col h4 { color: white; margin-bottom: 1.5rem; }
+    .footer_col p, .footer_col li { font-size: 0.9rem; margin-bottom: 10px; }
+    .footer_col ul { list-style: none; padding: 0; }
+    .footer_col a { color: inherit; text-decoration: none; transition: 0.3s ease; }
+    .footer_col a:hover { color: var(--primary); }
+    .footer_socials { display: flex; gap: 15px; margin-top: 1rem; }
+    .footer_socials a { font-size: 1.4rem; color: white; background: #1e293b; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; transition: 0.3s ease; }
+    .footer_socials a:hover { background: var(--primary); transform: translateY(-3px); }
+
+    @media (max-width: 768px) {
+      .policy_hero h1 { font-size: 2.2rem; }
+      .policy_wrapper { padding: 1.5rem; margin: 0 1rem 4rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Efoyta <span>Tech</span></a>
+    <div class="menu-toggle" id="mobile-menu">
+      <i class="ri-menu-line"></i>
+    </div>
+    <ul class="nav_items" id="nav-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="policy_hero">
+  <span class="badge">Privacy Matters</span>
+  <h1>Privacy Policy</h1>
+</section>
+
+<main class="policy_wrapper">
+  <p>At <strong>Efoyta Tech</strong>, we are committed to maintaining the trust and confidence of our visitors. This policy explains how we handle your personal data to ensure your printing experience is safe and secure.</p>
+
+  <div class="policy_section">
+    <h4><i class="ri-database-2-line"></i> Information We Collect</h4>
+    <ul>
+      <li><strong>Contact Details:</strong> Your name, email, and phone for order processing.</li>
+      <li><strong>Project Assets:</strong> Logos and designs uploaded for printing.</li>
+      <li><strong>Transaction Logs:</strong> Secure payment confirmations (we do not store credit cards).</li>
+    </ul>
+  </div>
+
+  <div class="policy_section">
+    <h4><i class="ri-user-settings-line"></i> How We Use Your Data</h4>
+    <p>Your information is used solely to fulfill your orders and coordinate delivery to your specified address.</p>
+  </div>
+
+  <div class="policy_section">
+    <h4><i class="ri-shield-keyhole-line"></i> Data Security</h4>
+    <p>We use industry-standard encryption. Your design files are only accessible by our production team for the duration of the printing process.</p>
+  </div>
+
+  <div class="policy_section">
+    <h4><i class="ri-share-forward-line"></i> Third-Party Policy</h4>
+    <p>We do not sell or trade your personal information. We only share data with essential partners like delivery couriers.</p>
+  </div>
+
+  <div class="last_updated">
+    Last Updated: December 19, 2025
+  </div>
+</main>
+
+<footer>
+  <div class="footer_content">
+    <div class="footer_col">
+      <h4>Efoyta Tech</h4>
+      <p>The standard for digital printing in Ethiopia. High quality, zero hassle.</p>
+      <div class="footer_socials">
+        <a href="https://t.me/Lilyteoes" target="_blank"><i class="ri-telegram-line"></i></a>
+        <a href="#"><i class="ri-tiktok-line"></i></a>
+        <a href="mailto:eliyasminase123@gmail.com"><i class="ri-mail-line"></i></a>
+      </div>
+    </div>
+    <div class="footer_col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="term.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer_col">
+      <h4>Reach Us</h4>
+      <p><i class="ri-phone-fill"></i> +251 90 799 2963</p>
+      <p><i class="ri-map-pin-2-fill"></i> Addis Ababa, Ethiopia</p>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem;">© 2025 Efoyta Print Solutions. All Rights Reserved.</p>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  const menuIcon = document.querySelector('#mobile-menu i');
+
+  menuBtn.addEventListener('click', () => {
+    navList.classList.toggle('active');
+    const isOpen = navList.classList.contains('active');
+    menuIcon.className = isOpen ? 'ri-close-line' : 'ri-menu-line';
+  });
+
+  document.querySelectorAll('.nav_items a').forEach(link => {
+    link.addEventListener('click', () => {
+      navList.classList.remove('active');
+      menuIcon.className = 'ri-menu-line';
+    });
+  });
+</script>
+
+</body>
+</html>

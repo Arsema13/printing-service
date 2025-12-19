@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us – Efoyta Tech</title>
+   <link rel="icon" type="image/png" href="img/favi.png">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary: #2d5bff;
+      --primary-hover: #1f46d4;
+      --dark: #0f172a;
+      --slate: #64748b;
+      --bg: #f8fafc;
+      --white: #ffffff;
+      --nav-glass: rgba(15, 23, 42, 0.95);
+      --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+    body { background: var(--bg); color: var(--dark); line-height: 1.6; overflow-x: hidden; }
+
+    /* ================= NAVBAR ================= */
+    .navbar {
+      position: fixed; top: 0; left: 0; width: 100%;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 10%; background: var(--nav-glass);
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      z-index: 1000; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    .logo { font-size: 1.6rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; text-decoration: none; }
+    .logo span { color: var(--primary); }
+    .nav_items { display: flex; list-style: none; gap: 30px; }
+    .nav_items li a { text-decoration: none; color: rgba(255, 255, 255, 0.85); font-weight: 500; font-size: 0.95rem; transition: 0.3s ease; }
+    .nav_items li a:hover, .nav_items li a.active { color: var(--primary); }
+    .menu-toggle { display: none; font-size: 1.8rem; cursor: pointer; color: white; }
+
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      .nav_items {
+        position: fixed; top: 70px; left: -100%; flex-direction: column;
+        background: var(--nav-glass); width: 100%; text-align: center;
+        padding: 40px 0; transition: 0.5s ease;
+      }
+      .nav_items.active { left: 0; }
+      .nav_items li { margin: 15px 0; }
+    }
+
+    /* ================= HERO SECTION ================= */
+    .about_hero { padding: 10rem 10% 5rem; text-align: center; }
+    .badge { background: #dbeafe; color: var(--primary); padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+    .about_hero h1 { font-size: 3.5rem; margin-top: 1.5rem; color: var(--dark); line-height: 1.2; }
+    .about_hero p { max-width: 600px; margin: 1.5rem auto; color: var(--slate); font-size: 1.1rem; }
+
+    /* ================= STORY SECTION ================= */
+    .section_container { max-width: 1200px; margin: 0 auto 6rem; padding: 0 5%; }
+    .story_card { 
+      background: var(--white); border-radius: 30px; padding: 4rem; 
+      display: flex; align-items: center; gap: 4rem; border: 1px solid #f1f5f9;
+      box-shadow: var(--card-shadow);
+    }
+    .story_text { flex: 1; }
+    .story_text h2 { font-size: 2.2rem; margin-bottom: 1rem; color: var(--dark); }
+    .story_image { 
+      flex: 1; background: #f8fafc; height: 320px; border-radius: 20px; 
+      display: flex; align-items: center; justify-content: center; 
+    }
+    .story_image i { font-size: 7rem; color: var(--primary); opacity: 0.15; }
+
+    /* ================= MATERIALS GRID ================= */
+    .services_section { background: var(--dark); padding: 6rem 10%; color: white; border-radius: 50px; margin: 0 20px; }
+    .section_head { text-align: center; margin-bottom: 4rem; }
+    .section_head h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+    .materials_grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; }
+    
+    .material_box { 
+      background: rgba(255, 255, 255, 0.03); padding: 2.5rem 1rem; border-radius: 24px; 
+      text-align: center; transition: 0.4s; border: 1px solid rgba(255,255,255,0.08); 
+    }
+    .material_box:hover { 
+      background: var(--primary); transform: translateY(-10px); 
+      border-color: var(--primary); box-shadow: 0 20px 40px rgba(45, 91, 255, 0.2);
+    }
+    .material_box i { font-size: 2.5rem; color: var(--primary); margin-bottom: 1.5rem; display: block; transition: 0.3s; }
+    .material_box:hover i { color: white; transform: scale(1.1); }
+    .material_box h4 { font-weight: 600; font-size: 1rem; }
+
+    /* ================= FOOTER ================= */
+    footer { background: var(--dark); color: #94a3b8; padding: 5rem 10% 2rem; margin-top: 6rem; }
+    .footer_content { display: flex; flex-wrap: wrap; gap: 4rem; border-bottom: 1px solid #1e293b; padding-bottom: 4rem; }
+    .footer_col { flex: 1; min-width: 250px; }
+    .footer_col h4 { color: white; margin-bottom: 1.5rem; font-size: 1.2rem; }
+    .footer_col ul { list-style: none; }
+    .footer_col a { color: inherit; text-decoration: none; transition: 0.3s; font-size: 0.9rem; display: block; margin-bottom: 10px; }
+    .footer_col a:hover { color: var(--primary); }
+    .footer_socials { display: flex; gap: 15px; margin-top: 1.5rem; }
+    .footer_socials a { background: #1e293b; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; font-size: 1.2rem; }
+    .footer_socials a:hover { background: var(--primary); transform: translateY(-3px); }
+
+    @media (max-width: 992px) {
+      .story_card { flex-direction: column; padding: 3rem; text-align: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">Efoyta <span>Tech</span></a>
+    <div class="menu-toggle" id="mobile-menu">
+      <i class="ri-menu-line"></i>
+    </div>
+    <ul class="nav_items" id="nav-list">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+     
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+</header>
+
+<section class="about_hero">
+  <span class="badge">Innovation in Print</span>
+  <h1>Modern Printing for<br>Ethiopian Business</h1>
+  <p>Efoyta Tech uses automated precision technology to deliver high-quality branding on any material.</p>
+</section>
+
+<div class="section_container">
+  <div class="story_card">
+    <div class="story_text">
+      <h2>Our Vision</h2>
+      <p>We bridge the gap between digital design and automated production. Whether it's branding for a startup or bulk orders for corporations, we ensure every logo is printed with absolute clarity and durability.</p>
+    </div>
+    <div class="story_image">
+       <i class="ri-printer-cloud-fill"></i>
+    </div>
+  </div>
+</div>
+
+<section class="services_section">
+  <div class="section_head">
+    <h2>Print Capability</h2>
+    <p style="color: #94a3b8;">High-fidelity results on diverse materials</p>
+  </div>
+  <div class="materials_grid">
+    <div class="material_box"><i class="ri-t-shirt-line"></i><h4>T-Shirts</h4></div>
+    <div class="material_box"><i class="ri-shirt-line"></i><h4>Hoodies</h4></div>
+    <div class="material_box"><i class="ri-scissors-2-line"></i><h4>Scarves</h4></div>
+    <div class="material_box"><i class="ri-user-settings-line"></i><h4>Aprons</h4></div>
+    <div class="material_box"><i class="ri-handbag-line"></i><h4>Tote Bags</h4></div>
+    
+    <div class="material_box"><i class="ri-shopping-bag-3-line"></i><h4>Paper Bags</h4></div>
+    <div class="material_box"><i class="ri-cup-line"></i><h4>Mugs</h4></div>
+    <div class="material_box"><i class="ri-bill-line"></i><h4>Posters</h4></div>
+    <div class="material_box"><i class="ri-compass-3-line"></i><h4>Caps</h4></div>
+    <div class="material_box"><i class="ri-archive-line"></i><h4>Notebooks</h4></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer_content">
+    <div class="footer_col">
+      <h4>Efoyta Tech</h4>
+      <p>The standard for digital printing in Ethiopia. Professional solutions for every business.</p>
+      <div class="footer_socials">
+        <a href="https://t.me/Lilyteoes" target="_blank"><i class="ri-telegram-line"></i></a>
+        <a href="#"><i class="ri-tiktok-line"></i></a>
+        <a href="mailto:eliyasminase123@gmail.com"><i class="ri-mail-line"></i></a>
+      </div>
+    </div>
+    <div class="footer_col">
+      <h4>Navigation</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="term.html">Terms & Conditions</a></li>
+      </ul>
+    </div>
+    <div class="footer_col">
+      <h4>Contact</h4>
+      <p><i class="ri-phone-fill" style="color: var(--primary);"></i> +251 90 799 2963</p>
+      <p><i class="ri-map-pin-2-fill" style="color: var(--primary);"></i> Addis Ababa, Ethiopia</p>
+    </div>
+  </div>
+  <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem; color: #64748b;">© 2025 Efoyta Print Solutions. All Rights Reserved.</p>
+</footer>
+
+<script>
+  const menuBtn = document.getElementById('mobile-menu');
+  const navList = document.getElementById('nav-list');
+  const menuIcon = document.querySelector('#mobile-menu i');
+
+  menuBtn.addEventListener('click', () => {
+    navList.classList.toggle('active');
+    const isOpen = navList.classList.contains('active');
+    menuIcon.className = isOpen ? 'ri-close-line' : 'ri-menu-line';
+  });
+</script>
+
+</body>
+</html>

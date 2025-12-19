@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up </title>
+<link rel="icon" type="image/png" href="img/favi.png">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background-color:#e9efff;height:100vh;display:flex;align-items:center;justify-content:center;}
+.main-card{background:white;width:90%;max-width:1100px;height:85vh;border-radius:40px;display:flex;flex-direction:column;box-shadow:0 20px 50px rgba(0,0,0,0.05);overflow:hidden;}
+.navbar{padding:30px 60px;display:flex;justify-content:space-between; align-items:center;} /* Changed to space-between for logo */
+.brand-logo{font-size: 22px; font-weight: 700; color: #333;}
+.brand-logo span{color: #4477ff;}
+.nav-links a{text-decoration:none;color:#555;margin-left:35px;font-size:14px;font-weight:500;}
+.nav-links a.active-link{color:#4477ff;font-weight:600;border-bottom:2px solid #4477ff;padding-bottom:4px;}
+.content{flex:1;display:flex;align-items:center;justify-content:space-between;padding:0 100px 50px;}
+.form-section{width:450px;}
+.form-section h1{font-size:42px;color:#333;margin-bottom:30px;}
+.input-group{margin-bottom:15px;}
+.input-group label{display:block;font-size:13px;color:#666;margin-bottom:8px;margin-left:5px;}
+.input-group input{width:100%;padding:12px 20px;border-radius:12px;border:1px solid #e0e0e0;background:#f0f2f5;outline:none;font-size:14px;color:#333;}
+.password-row{display:flex;gap:15px;}
+.password-row .input-group{flex:1;}
+.signup-btn{width:100%;padding:14px;border-radius:12px;border:none;background:#4477ff;color:white;font-size:15px;font-weight:600;cursor:pointer;margin-top:20px;transition:0.3s;}
+.signup-btn:hover{background:#3366ee;box-shadow:0 8px 15px rgba(68,119,255,0.3);}
+.login-prompt{margin-top:20px;font-size:13px;color:#333;}
+.login-prompt a{color:#4477ff;text-decoration:none;font-weight:600;}
+.illustration-section{width:45%;display:flex;justify-content:center;}
+.hero-img{width:100%;max-width:450px;}
+@media(max-width:992px){.illustration-section{display:none;}.content{justify-content:center;padding:0 40px 50px;}.form-section{width:100%;}}
+</style>
+</head>
+<body>
+
+<div class="main-card">
+    <nav class="navbar">
+        <div class="brand-logo">Efoyta <span>Tech</span></div>
+        
+        <div class="nav-links">
+            <a href="index.html">HOME</a>
+            <a href="about.html">ABOUT US</a>
+            <a href="contact.html">CONTACT</a>
+            <a href="login.html" class="active-link">LOG IN</a>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div class="form-section">
+            <h1>Sign up</h1>
+            <form id="signupForm">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" placeholder="Daniel Gallego" required>
+                </div>
+
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" id="email" placeholder="hello@reallygreatsite.com" required>
+                </div>
+
+                <div class="password-row">
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="password" placeholder="**********" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="**********" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="signup-btn">Create Account</button>
+            </form>
+            <p class="login-prompt">or <a href="login.html">Log in</a></p>
+        </div>
+
+        <div class="illustration-section">
+            <img src="img/signup.png" alt="Sign Up Illustration" class="hero-img">
+        </div>
+    </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
+    authDomain: "ordering-fd42a.firebaseapp.com",
+    projectId: "ordering-fd42a",
+    storageBucket: "ordering-fd42a.firebasestorage.app",
+    messagingSenderId: "379564875478",
+    appId: "1:379564875478:web:42bc00e70a594bc24ef377",
+    measurementId: "G-GVBY892VB2"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const signupForm = document.getElementById('signupForm');
+
+signupForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const fullName = document.getElementById('fullName').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if(password !== confirmPassword){
+        alert("Passwords do not match!");
+        return;
+    }
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            updateProfile(userCredential.user, { displayName: fullName })
+            .then(() => {
+                // Redirect user to profile.html after signup
+                window.location.href = "profile.html"; 
+            });
+        })
+        .catch((error) => {
+            alert(error.message);
+        });
+});
+</script>
+
+</body>
+</html>

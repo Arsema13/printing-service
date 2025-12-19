@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Order - Efoyta Tech</title>
+<link rel="icon" type="image/png" href="img/favi.png">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet"/>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;600;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Roboto Slab', serif;}
+body{background:#eef7fc;color:#222;line-height:1.6;}
+
+.navbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1rem 5%;position:fixed;width:100%;top:0;
+  background:#fff;box-shadow:0 4px 20px rgba(0,0,0,0.05);z-index:1000;
+}
+.logo{font-size:1.8rem;font-weight:700;color:#007bff;}
+.nav_items{display:flex;gap:2rem;list-style:none;}
+.nav_items a{text-decoration:none;color:#222;font-weight:600;}
+.nav_items a.active,.nav_items a:hover{color:#007bff;}
+
+.sec{padding:14% 5% 5%;max-width:900px;margin:auto;}
+
+.head_1{text-align:center;margin-bottom:2rem;}
+.sub_heading{color:#007bff;font-size:1.6rem;font-weight:600;}
+.heading{font-size:2.4rem;font-weight:700;}
+.para{color:#555;margin-top:10px;}
+
+.order_container{
+  background:#fff;padding:2rem;border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,123,255,0.1);
+  transition: all 0.3s ease;
+}
+.order_container:hover{transform: translateY(-5px);}
+
+.order_form{display:flex;flex-direction:column;gap:1.4rem;}
+.order_form label{font-weight:600;color:#004a80;}
+
+.order_form input,
+.order_form select,
+.order_form textarea{
+  padding:0.9rem 1.2rem;border-radius:12px;
+  border:1px solid #0077cc;font-size:1rem;
+  transition: all 0.2s;
+}
+.order_form input:focus,
+.order_form select:focus,
+.order_form textarea:focus{border-color:#007bff;outline:none;box-shadow:0 0 8px rgba(0,123,255,0.2);}
+.order_form textarea{resize:vertical;min-height:100px;}
+
+.btn{
+  padding:0.75rem 1.5rem;border:none;border-radius:12px;
+  background:#007bff;color:#fff;font-weight:600;cursor:pointer;
+  transition: all 0.2s;
+}
+.btn:hover{box-shadow:0 8px 20px rgba(0,123,255,0.3); transform: translateY(-2px);}
+
+.products_box{
+  background:#f0f8ff;
+  padding:1rem;
+  border-radius:12px;
+  max-height:200px;
+  overflow-y:auto;
+}
+.product_row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  padding:6px 8px;
+  border-radius:8px;
+  background:#e6f2ff;
+  transition: all 0.2s;
+}
+.product_row:hover{background:#d0e7ff;}
+.remove{
+  background:red;color:#fff;border:none;
+  border-radius:6px;padding:4px 10px;cursor:pointer;
+  font-weight:600;
+}
+
+.order_summary{
+  background:#f0f8ff;padding:1rem;border-radius:12px;
+  margin-top:10px;
+  font-size:1.1rem;
+}
+.order_summary h4{color:#007bff;}
+.order_summary span{font-weight:600;}
+
+footer{
+  background:#0f172a;color:#fff;text-align:center;
+  padding:2rem;margin-top:2rem;
+  font-size:0.95rem;
+}
+
+@media(max-width:600px){
+  .order_form input,
+  .order_form select,
+  .order_form textarea,
+  .btn{font-size:0.95rem;}
+  .product_row{flex-direction:column;align-items:flex-start;}
+  .product_row span{margin-bottom:4px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<nav class="navbar">
+  <div class="logo">Efoyta Tech</div>
+  <ul class="nav_items">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="order.html" class="active">Order</a></li>
+    <li><a href="contact.html">Contact</a></li>
+     <li><a href="about.html">About Us</a></li>
+  </ul>
+</nav>
+</header>
+
+<section class="sec">
+<div class="head_1">
+  <h3 class="sub_heading">Place Your Order</h3>
+  <h1 class="heading">Customize Your Printed Products</h1>
+  <p class="para">Select multiple products, upload design & receipt, and submit your order.</p>
+</div>
+
+<div class="order_container">
+<form class="order_form" id="orderForm">
+
+<label>Select Product</label>
+<select id="material">
+<option value="">Choose Product</option>
+
+<!-- 🔒 PRODUCT LIST UNCHANGED -->
+<optgroup label="Paper Bags – Duplex (With Logo)">
+<option data-price="35">Small – 35 ETB</option>
+<option data-price="45">Medium (1) – 45 ETB</option>
+<option data-price="50">Medium (2) – 50 ETB</option>
+<option data-price="60">Large – 60 ETB</option>
+</optgroup>
+
+<optgroup label="Paper Bags – Duplex (Without Logo)">
+<option data-price="30">Small – 30 ETB</option>
+<option data-price="42">Medium (1) – 42 ETB</option>
+<option data-price="45">Medium (2) – 45 ETB</option>
+<option data-price="55">Large – 55 ETB</option>
+</optgroup>
+
+<optgroup label="Paper Bags – Kaki Imported (With Logo)">
+<option data-price="30">Small – 30 ETB</option>
+<option data-price="35">Medium (1) – 35 ETB</option>
+<option data-price="40">Medium (2) – 40 ETB</option>
+<option data-price="53">Large – 53 ETB</option>
+</optgroup>
+
+<optgroup label="Paper Bags – Kaki Imported (Without Logo)">
+<option data-price="23">Small (24×19 cm) – 23 ETB</option>
+<option data-price="30">Medium (24×35 cm) – 30 ETB</option>
+<option data-price="35">Medium (34×35 cm) – 35 ETB</option>
+<option data-price="40">Large (40×35 cm) – 40 ETB</option>
+</optgroup>
+
+<optgroup label="Other Products">
+<option data-price="40">Cap-40 ETB</option>
+<option data-price="80">T-Shirt-80 ETB</option>
+<option data-price="70">Hoodie-70 ETB</option>
+<option data-price="90">Jacket-90 ETB</option>
+<option data-price="80">Mugs & Cups-80 ETB</option>
+<option data-price="90">Glass Bottles-90 ETB</option>
+<option data-price="80">Tote / Fabric Bag-80 ETB</option>
+<option data-price="80">Scarf-80 ETB</option>
+<option data-price="70">Apron-70 ETB</option>
+<option data-price="60">Poster-60 ETB</option>
+<option data-price="90">Flyer-90 ETB</option>
+</optgroup>
+</select>
+
+<label>Quantity</label>
+<input type="number" id="quantity" min="1" value="1">
+
+<button type="button" class="btn" onclick="addProduct()">Add Product</button>
+
+<div class="products_box" id="productsBox"></div>
+
+<label>Upload Logo / Design</label>
+<input type="file" id="logo" required>
+
+<label>Upload Payment Receipt Telebirr</label>
+<label>Payment Information</label>
+<div style="background:#f0f8ff;padding:1rem;border-radius:10px;font-size:1rem;color:#004a80;">
+  <p>Telebirr: +251 90 799 2963</p>
+  <p>CBE Abissiniya Bank: Account No. 10000</p>
+  <p>Abissiniya Bank: Account No. 56...</p>
+</div>
+
+<input type="file" id="receipt" required>
+<label>Delivery Option</label> <select id="delivery" required> <option value="">Choose</option> <option>Pickup</option> <option>Delivery</option> </select> 
+<label>Delivery Address (if delivery)</label> <textarea id="address"></textarea>
+<label>Full Name</label>
+<input type="text" id="name" required>
+
+<label>Email</label>
+<input type="email" id="email" required>
+<label>Phone Number</label>
+<input type="phone number" id="phone" required>
+
+
+<div class="order_summary">
+<h4>Total: <span id="totalPrice">0</span> ETB</h4>
+</div>
+
+<button class="btn" type="submit">Place Order</button>
+
+</form>
+</div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact" style="background:#0f172a;color:#fff;padding:2rem 1rem;font-family:'Poppins',sans-serif;">
+  <div class="footer-container" style="max-width:1200px;margin:auto;display:flex;flex-wrap:wrap;justify-content:space-between;gap:2rem;">
+    
+    <!-- About & Logo -->
+    <div class="footer-about" style="flex:1;min-width:220px;">
+      <h4 style="font-size:1.2rem;font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Efoyta Technologies Solution</h4>
+      <p style="font-size:0.9rem;color:#ccc;">Providing professional printing solutions across Ethiopia with quality and reliability.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-links" style="flex:1;min-width:180px;">
+      <h4 style="font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Quick Links</h4>
+      <ul style="list-style:none;padding:0;font-size:0.9rem;">
+        <li><a href="index.html" style="color:#ccc;text-decoration:none;">Home</a></li>
+        <li><a href="about.html" style="color:#ccc;text-decoration:none;">About</a></li>
+        <li><a href="privacy.html" style="color:#ccc;text-decoration:none;">Privacy Policy</a></li>
+        <li><a href="term.html" style="color:#ccc;text-decoration:none;">Terms & Conditions</a></li>
+        <li><a href="contact.html" style="color:#ccc;text-decoration:none;">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div class="footer-contact" style="flex:1;min-width:220px;">
+      <h4 style="font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Contact</h4>
+      <p style="font-size:0.9rem;color:#ccc;"><i class="ri-mail-fill" style="margin-right:5px;"></i> eliyasminase123@gmail.com</p>
+      <p style="font-size:0.9rem;color:#ccc;"><i class="ri-phone-fill" style="margin-right:5px;"></i> +251 90 799 2963</p>
+      <p style="font-size:0.9rem;color:#ccc;"><i class="ri-telegram-fill" style="margin-right:5px;"></i> @EfoytaTech</p>
+    </div>
+
+   <!-- Social Links -->
+<div class="footer-socials" style="flex:1;min-width:180px;">
+  <h4 style="font-weight:600;color:#2d5bff;margin-bottom:0.5rem;">Follow Us</h4>
+  <ul style="display:flex;gap:10px;list-style:none;padding:0;margin:0;">
+    <li>
+      <a href="mailto:eliyasminase123@gmail.com" style="color: inherit; text-decoration: none; font-size:1.2rem;">
+        <i class="ri-mail-fill"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://t.me/Lilyteoes" target="_blank" style="color: inherit; font-size:1.2rem;">
+        <i class="ri-telegram-fill"></i>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.tiktok.com/@yourusername" target="_blank" style="color: inherit; font-size:1.2rem;">
+        <i class="ri-tiktok-fill"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  </div>
+
+  <div class="footer-bottom" style="text-align:center;margin-top:2rem;font-size:0.8rem;color:#888;">
+    <p>© 2025 Efoyta Technologies Solution. All Rights Reserved.</p>
+  </div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-database.js";
+
+/* ================= FIREBASE INIT (UNCHANGED) ================= */
+const app = initializeApp({
+  apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
+  authDomain: "ordering-fd42a.firebaseapp.com",
+  databaseURL: "https://ordering-fd42a-default-rtdb.firebaseio.com/",
+  projectId: "ordering-fd42a",
+  messagingSenderId: "379564875478",
+  appId: "1:379564875478:web:42bc00e70a594bc24ef377"
+});
+
+const db = getDatabase(app);
+
+/* ================= DOM ELEMENTS ================= */
+const material = document.getElementById("material");
+const quantity = document.getElementById("quantity");
+const logo = document.getElementById("logo");
+const receipt = document.getElementById("receipt");
+const delivery = document.getElementById("delivery");
+const address = document.getElementById("address");
+const name = document.getElementById("name");
+const email = document.getElementById("email");
+const phone = document.getElementById("phone");
+
+const products = [];
+const box = document.getElementById("productsBox");
+const totalEl = document.getElementById("totalPrice");
+
+/* ================= ADD PRODUCT ================= */
+window.addProduct = () => {
+  const sel = material.options[material.selectedIndex];
+  const qty = parseInt(quantity.value);
+
+  if (!sel.dataset.price || qty < 1) {
+    alert("Select a product and quantity.");
+    return;
+  }
+
+  products.push({
+    name: sel.textContent,
+    price: Number(sel.dataset.price),
+    qty
+  });
+
+  renderProducts();
+};
+
+function renderProducts() {
+  box.innerHTML = "";
+  let total = 0;
+
+  products.forEach((p, i) => {
+    total += p.price * p.qty;
+
+    const div = document.createElement("div");
+    div.className = "product_row";
+    div.innerHTML = `<span>${p.qty} × ${p.name}</span><span>${p.price * p.qty} ETB</span>`;
+
+    const btn = document.createElement("button");
+    btn.className = "remove";
+    btn.textContent = "X";
+    btn.onclick = () => {
+      products.splice(i, 1);
+      renderProducts();
+    };
+
+    div.appendChild(btn);
+    box.appendChild(div);
+  });
+
+  totalEl.textContent = total;
+}
+
+/* ================= CLOUDINARY UPLOAD (NEW) ================= */
+async function uploadToCloudinary(file) {
+  const CLOUD_NAME = "ddbn2w991";       // 🔴 change this
+  const UPLOAD_PRESET = "efoyta_upload";      // 🔴 your unsigned preset
+
+  const url = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", UPLOAD_PRESET);
+
+  const res = await fetch(url, { method: "POST", body: formData });
+  const data = await res.json();
+
+  if (!data.secure_url) throw new Error("Upload failed");
+  return data.secure_url;
+}
+
+/* ================= SUBMIT ORDER ================= */
+document.getElementById("orderForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  if (products.length === 0) {
+    alert("Please add at least one product.");
+    return;
+  }
+
+  try {
+    const logoFile = logo.files[0];
+    const receiptFile = receipt.files[0];
+
+    if (!logoFile || !receiptFile) {
+      alert("Please upload both logo/design and receipt.");
+      return;
+    }
+
+    const logoURL = await uploadToCloudinary(logoFile);
+    const receiptURL = await uploadToCloudinary(receiptFile);
+
+    await push(ref(db, "orders"), {
+      products,
+      totalETB: totalEl.textContent,
+      delivery: delivery.value,
+      address: address.value,
+      name: name.value,
+      email: email.value,
+      phone: phone.value,
+      logoURL,
+      receiptURL,
+      time: new Date().toISOString()
+    });
+
+    alert("✅ Order submitted successfully!");
+    document.getElementById("orderForm").reset();
+    products.length = 0;
+    renderProducts();
+
+  } catch (error) {
+    console.error(error);
+    alert("❌ Failed to submit order.");
+  }
+});
+</script>
+
+</body>
+</html>

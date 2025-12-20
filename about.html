@@ -118,7 +118,7 @@
     <ul class="nav_items" id="nav-list">
       <li><a href="index.html">Home</a></li>
       <li><a href="about.html" class="active">About</a></li>
-     
+     <li><a href="javascript:void(0)" onclick="handleHomeClick()" id="home-link">Home</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
   </nav>
@@ -202,6 +202,21 @@
     const isOpen = navList.classList.contains('active');
     menuIcon.className = isOpen ? 'ri-close-line' : 'ri-menu-line';
   });
+  function handleHomeClick() {
+    // Check if user is logged in (using 'true' as a placeholder for your actual logic)
+    const isLoggedIn = localStorage.getItem('isLoggedIn'); 
+
+    if (isLoggedIn === 'true') {
+        window.location.href = 'profile.html';
+    } else {
+        window.location.href = 'index.html';
+    }
+}
+
+// OPTIONAL: Simple logic to simulate login for testing
+// You would call this on your login page after a successful login:
+// localStorage.setItem('isLoggedIn', 'true');
+// To logout: localStorage.removeItem('isLoggedIn');
 </script>
 
 </body>

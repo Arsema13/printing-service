@@ -349,3 +349,7 @@ footer { background: #f1f3f5; padding: 2rem 5%; text-align: center; }
 
   .nav_items li a { font-size: 1.1rem; padding: 10px 20px; display: block; }
 }
+#message {
+  margin-top: 10px;
+  font-size: 14px;
+}

@@ -72,3 +72,23 @@ ScrollReveal().reveal('.box_1', { ...scrollRevealOption, delay: 1000 });
 ScrollReveal().reveal('.box_2', { ...scrollRevealOption, delay: 1000 });
 ScrollReveal().reveal('.footer_col', { ...scrollRevealOption, delay: 500 });
 ScrollReveal().reveal('.footer_bar', { ...scrollRevealOption, delay: 500 });
+// existing code above...
+
+// ===== Login form validation =====
+const loginBtn = document.getElementById("loginBtn");
+
+if (loginBtn) {
+  loginBtn.addEventListener("click", function () {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+
+    if (email === "" || password === "") {
+      message.style.color = "red";
+      message.textContent = "Please fill in all fields.";
+    } else {
+      message.style.color = "green";
+      message.textContent = "Login successful!";
+    }
+  });
+}

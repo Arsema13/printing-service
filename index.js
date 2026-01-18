@@ -47,7 +47,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
         // Redirect to logout page
-        window.location.href = "logout.html";
+        window.location.href = "login.html";
     });
 }
 

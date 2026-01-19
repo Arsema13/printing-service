@@ -277,9 +277,16 @@
     }
   });
 
+  // FIX: Logout button now explicitly signs out and redirects to login.html
   document.getElementById("logoutLink").onclick = (e) => {
     e.preventDefault();
-    signOut(auth).then(() => window.location.href = "login.html");
+    signOut(auth)
+      .then(() => {
+        window.location.href = "login.html";
+      })
+      .catch((error) => {
+        console.error("Sign out error:", error);
+      });
   };
 </script>
 

@@ -70,6 +70,7 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.03);
       border: 1px solid rgba(0,0,0,0.05);
       overflow-x: auto;
+      margin-bottom: 2rem;
     }
 
     .table-header { margin-bottom: 1.5rem; border-bottom: 2px solid var(--bg-light); padding-bottom: 1rem; }
@@ -122,6 +123,9 @@
 
     .btn-delete { background: #fef2f2; color: var(--danger); border: 1px solid #fee2e2; }
     .btn-delete:hover { background: var(--danger); color: #fff; }
+    
+    .btn-reply { background: #eef2ff; color: var(--accent-blue); border: 1px solid #dbeafe; }
+    .btn-reply:hover { background: var(--accent-blue); color: #fff; }
 
     .status-badge {
       padding: 0.4rem 0.8rem;
@@ -159,7 +163,7 @@
 <section>
   <div class="card">
     <div class="table-header">
-      <h2 style="font-size: 1.2rem;">Incoming Orders & User Management</h2>
+      <h2 style="font-size: 1.2rem;"><i class="ri-shopping-bag-3-line"></i> Incoming Orders</h2>
     </div>
     <table id="ordersTable">
       <thead>
@@ -173,8 +177,25 @@
           <th>Operations</th>
         </tr>
       </thead>
-      <tbody>
-        </tbody>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="table-header">
+      <h2 style="font-size: 1.2rem;"><i class="ri-chat-history-line"></i> User Inquiries & Messages</h2>
+    </div>
+    <table id="contactsTable">
+      <thead>
+        <tr>
+          <th>Sender</th>
+          <th>Subject</th>
+          <th>Message</th>
+          <th>Date</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
   </div>
 </section>
@@ -195,19 +216,23 @@
 
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
+  
   const ordersRef = ref(db, 'orders');
+  const contactsRef = ref(db, 'contacts');
 
   const ordersTableBody = document.querySelector("#ordersTable tbody");
+  const contactsTableBody = document.querySelector("#contactsTable tbody");
 
-  // ================= LOAD & RENDER DATA =================
+  // ================= LOAD ORDERS =================
   onValue(ordersRef, (snapshot) => {
     ordersTableBody.innerHTML = "";
+    if (!snapshot.exists()) return;
     snapshot.forEach(childSnap => {
       const orderId = childSnap.key;
       const order = childSnap.val();
       
       const tr = document.createElement("tr");
-      const productsList = order.products.map(p => `<b>${p.qty}x</b> ${p.name}`).join("<br>");
+      const productsList = order.products ? order.products.map(p => `<b>${p.qty}x</b> ${p.name}`).join("<br>") : "No Data";
       const statusClass = `status-${order.status || 'Pending'}`;
       
       tr.innerHTML = `
@@ -232,11 +257,43 @@
           <div style="display:flex; gap:5px;">
             <button class="btn-action btn-pending" onclick="updateStatus('${orderId}', 'Pending')"><i class="ri-time-line"></i></button>
             <button class="btn-action btn-finish" onclick="updateStatus('${orderId}', 'Finished')"><i class="ri-check-line"></i></button>
-            <button class="btn-action btn-delete" onclick="deleteUserAndOrder('${orderId}', '${order.name}')"><i class="ri-delete-bin-line"></i></button>
+            <button class="btn-action btn-delete" onclick="deleteRecord('orders', '${orderId}', '${order.name}')"><i class="ri-delete-bin-line"></i></button>
           </div>
         </td>
       `;
       ordersTableBody.appendChild(tr);
+    });
+  });
+
+  // ================= LOAD CONTACTS =================
+  onValue(contactsRef, (snapshot) => {
+    contactsTableBody.innerHTML = "";
+    if (!snapshot.exists()) {
+        contactsTableBody.innerHTML = "<tr><td colspan='5' style='text-align:center; color:var(--text-slate);'>No messages found.</td></tr>";
+        return;
+    }
+    snapshot.forEach(childSnap => {
+      const contactId = childSnap.key;
+      const contact = childSnap.val();
+      const date = contact.timestamp ? new Date(contact.timestamp).toLocaleDateString() : "N/A";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="user-info">
+          <b>${contact.name}</b>
+          <span>${contact.email}</span>
+        </td>
+        <td>${contact.subject || "No Subject"}</td>
+        <td style="max-width:300px; font-size:0.85rem; color:var(--text-slate)">${contact.message}</td>
+        <td>${date}</td>
+        <td>
+          <div style="display:flex; gap:5px;">
+            <button class="btn-action btn-reply" onclick="replyEmail('${contact.email}', '${contact.name}')"><i class="ri-reply-line"></i> Reply</button>
+            <button class="btn-action btn-delete" onclick="deleteRecord('contacts', '${contactId}', '${contact.name}')"><i class="ri-delete-bin-line"></i></button>
+          </div>
+        </td>
+      `;
+      contactsTableBody.appendChild(tr);
     });
   });
 
@@ -246,12 +303,18 @@
       .catch(err => alert("Error updating status: " + err.message));
   };
 
-  window.deleteUserAndOrder = (orderId, userName) => {
-    if (confirm(`CRITICAL: Are you sure you want to delete the user "${userName}" and all associated order records?`)) {
-      remove(ref(db, `orders/${orderId}`))
-        .then(() => alert("Record completely removed from database."))
-        .catch(err => alert("Error deleting record: " + err.message));
+  window.deleteRecord = (path, id, name) => {
+    if (confirm(`Are you sure you want to delete the entry for "${name}"?`)) {
+      remove(ref(db, `${path}/${id}`))
+        .then(() => alert("Removed successfully."))
+        .catch(err => alert("Error: " + err.message));
     }
+  };
+
+  window.replyEmail = (email, name) => {
+    const subject = encodeURIComponent("Regarding your inquiry at Efoyta Tech");
+    const body = encodeURIComponent(`Dear ${name},\n\nThank you for reaching out to Efoyta Tech. \n\n[Write your response here]`);
+    window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   };
 
   // ================= LOGOUT =================

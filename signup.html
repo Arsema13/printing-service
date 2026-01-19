@@ -73,7 +73,7 @@ body{background-color:#e9efff;height:100vh;display:flex;align-items:center;justi
                     </div>
                 </div>
 
-                <button type="submit" class="signup-btn">Create Account</button>
+                <button type="submit" id="submitBtn" class="signup-btn">Create Account</button>
             </form>
             <p class="login-prompt">or <a href="login.html">Log in</a></p>
         </div>
@@ -86,7 +86,13 @@ body{background-color:#e9efff;height:100vh;display:flex;align-items:center;justi
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    updateProfile, 
+    sendEmailVerification, 
+    signOut 
+} from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBHcGnd6tDNg5Wruabo8sWXO_Xz-SOrPBI",
@@ -102,6 +108,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const signupForm = document.getElementById('signupForm');
+const submitBtn = document.getElementById('submitBtn');
 
 signupForm.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -116,16 +123,32 @@ signupForm.addEventListener('submit', (e) => {
         return;
     }
 
+    submitBtn.disabled = true;
+    submitBtn.innerText = "Processing...";
+
     createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            updateProfile(userCredential.user, { displayName: fullName })
+            const user = userCredential.user;
+            
+            // 1. Update the user profile with the Full Name
+            updateProfile(user, { displayName: fullName })
             .then(() => {
-                // Redirect user to profile.html after signup
-                window.location.href = "profile.html"; 
+                // 2. Send Verification Email
+                sendEmailVerification(user)
+                .then(() => {
+                    alert("Account created! A verification link has been sent to " + email + ". Please verify your email before logging in.");
+                    
+                    // 3. Sign the user out immediately so they have to log in verified
+                    signOut(auth).then(() => {
+                        window.location.href = "login.html";
+                    });
+                });
             });
         })
         .catch((error) => {
             alert(error.message);
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Create Account";
         });
 });
 </script>

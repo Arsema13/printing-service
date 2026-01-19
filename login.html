@@ -32,6 +32,10 @@
         .input-group span { color:#333; margin-right:12px; font-size:18px; }
         .input-group input { background:transparent; border:none; outline:none; width:100%; font-size:14px; color:#666; }
 
+        /* Password Toggle Styling */
+        .toggle-password { cursor: pointer; color: #999 !important; margin-right: 0 !important; margin-left: 10px; transition: 0.3s; }
+        .toggle-password:hover { color: #4378ff !important; }
+
         .form-options { display:flex; justify-content:space-between; align-items:center; margin-bottom:30px; font-size:12px; color:#999; }
         .forgot-pass { text-decoration:none; color:#999; font-style:italic; cursor:pointer; }
         
@@ -97,6 +101,7 @@
                 <div class="input-group">
                     <span class="ri-lock-line"></span>
                     <input type="password" id="password" placeholder="Password" required>
+                    <span class="ri-eye-off-line toggle-password" id="togglePassword"></span>
                 </div>
 
                 <div class="form-options">
@@ -108,7 +113,7 @@
 
                 <button type="submit" class="action-btn" id="authBtn">Log in</button>
             </form>
-            <p class="toggle-text" id="toggleText">Don't have an account? <a id="toggleForm">Sign up</a></p>
+            <p class="toggle-text" id="toggleText">Don't have an account? <a href="signup.html" id="toggleForm">Sign up</a></p>
         </div>
 
         <div class="illustration-section">
@@ -136,9 +141,7 @@
     import { 
         getAuth, 
         signInWithEmailAndPassword, 
-        createUserWithEmailAndPassword, 
         sendPasswordResetEmail,
-        sendEmailVerification,
         signOut
     } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-auth.js";
 
@@ -155,19 +158,25 @@
     const auth = getAuth(app);
     const adminEmail = "admin@gmail.com";
 
+    // Selectors
     const authForm = document.getElementById("authForm");
     const authBtn = document.getElementById("authBtn");
-    const formTitle = document.getElementById("formTitle");
-    const toggleText = document.getElementById("toggleText");
-    const navActionText = document.getElementById("navActionText");
+    const passwordInput = document.getElementById("password");
+    const togglePasswordBtn = document.getElementById("togglePassword");
     
+    // Password Toggle Logic
+    togglePasswordBtn.addEventListener("click", function() {
+        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+        passwordInput.setAttribute("type", type);
+        this.classList.toggle("ri-eye-line");
+        this.classList.toggle("ri-eye-off-line");
+    });
+
     const resetModal = document.getElementById("resetModal");
     const forgotPasswordBtn = document.getElementById("forgotPassword");
     const closeModal = document.getElementById("closeModal");
     const confirmResetBtn = document.getElementById("confirmResetBtn");
     const resetEmailInput = document.getElementById("resetEmail");
-
-    let isLoginMode = true;
 
     forgotPasswordBtn.onclick = () => { resetModal.style.display = "flex"; };
     closeModal.onclick = () => { resetModal.style.display = "none"; };
@@ -175,41 +184,28 @@
     authForm.addEventListener("submit", async (e) => {
         e.preventDefault();
         const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+        const password = passwordInput.value;
 
         authBtn.disabled = true;
         authBtn.textContent = "Please wait...";
 
-        if (isLoginMode) {
-            signInWithEmailAndPassword(auth, email, password)
-                .then(async (userCredential) => {
-                    const user = userCredential.user;
-                    if (!user.emailVerified && user.email !== adminEmail) {
-                        alert("Please verify your email first.");
-                        await signOut(auth);
-                        authBtn.disabled = false;
-                        authBtn.textContent = "Log in";
-                    } else {
-                        window.location.href = (user.email === adminEmail) ? "admin.html" : "profile.html";
-                    }
-                })
-                .catch(err => {
-                    alert("Error: " + err.message);
+        signInWithEmailAndPassword(auth, email, password)
+            .then(async (userCredential) => {
+                const user = userCredential.user;
+                if (!user.emailVerified && user.email !== adminEmail) {
+                    alert("Please verify your email first.");
+                    await signOut(auth);
                     authBtn.disabled = false;
                     authBtn.textContent = "Log in";
-                });
-        } else {
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(async (userCredential) => {
-                    await sendEmailVerification(userCredential.user);
-                    alert("Account created! Verify your email before logging in.");
-                    location.reload(); 
-                })
-                .catch(err => {
-                    alert(err.message);
-                    authBtn.disabled = false;
-                });
-        }
+                } else {
+                    window.location.href = (user.email === adminEmail) ? "admin.html" : "profile.html";
+                }
+            })
+            .catch(err => {
+                alert("Error: " + err.message);
+                authBtn.disabled = false;
+                authBtn.textContent = "Log in";
+            });
     });
 
     confirmResetBtn.onclick = async () => {
@@ -227,7 +223,6 @@
             alert("If an account is registered with " + email + ", a reset link has been sent to your inbox.");
             resetModal.style.display = "none";
         } catch (error) {
-            // Handling the case where email is not in Firebase but protection is active
             if (error.code === 'auth/user-not-found') {
                 alert("This email does not exist in our database.");
             } else {

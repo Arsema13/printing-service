@@ -11,6 +11,12 @@
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins',sans-serif; }
         body { background:#eef2ff; display:flex; justify-content:center; align-items:center; min-height:100vh; padding:20px; }
         
+        /* NEW: This block hides the browser's default eye icon so only YOURS shows */
+        input::-ms-reveal,
+        input::-ms-clear { display: none; }
+        input::-webkit-contacts-auto-fill-button, 
+        input::-webkit-credentials-auto-fill-button { visibility: hidden; pointer-events: none; position: absolute; right: 0; }
+
         .card { 
             background:#fff; width:100%; max-width:1000px; border-radius:40px; 
             box-shadow:0 15px 35px rgba(0,0,0,0.05); padding:30px 60px 60px 60px; position:relative; 
@@ -158,13 +164,12 @@
     const auth = getAuth(app);
     const adminEmail = "admin@gmail.com";
 
-    // Selectors
     const authForm = document.getElementById("authForm");
     const authBtn = document.getElementById("authBtn");
     const passwordInput = document.getElementById("password");
     const togglePasswordBtn = document.getElementById("togglePassword");
     
-    // Password Toggle Logic
+    // Toggle Password Visibility Logic
     togglePasswordBtn.addEventListener("click", function() {
         const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
         passwordInput.setAttribute("type", type);
@@ -223,12 +228,8 @@
             alert("If an account is registered with " + email + ", a reset link has been sent to your inbox.");
             resetModal.style.display = "none";
         } catch (error) {
-            if (error.code === 'auth/user-not-found') {
-                alert("This email does not exist in our database.");
-            } else {
-                alert("If this email exists in our system, a reset link was sent.");
-                resetModal.style.display = "none";
-            }
+            alert("If this email exists in our system, a reset link was sent.");
+            resetModal.style.display = "none";
         } finally {
             confirmResetBtn.disabled = false;
             confirmResetBtn.textContent = "Send Reset Link";
